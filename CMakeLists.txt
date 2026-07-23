@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 4.3)
+project(Linux_System_Programming C)
+
+# Set the C standard to C23 (supported in modern CMake versions)
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+# Keeps your build directory organized by putting output executables in the root build folder
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# 1. Find all .c source files across your project directory recursively
+file(GLOB_RECURSE C_FILES CONFIGURE_DEPENDS "*.c")
+
+# 2. Filter out any C files created automatically inside CMake build folders
+list(FILTER C_FILES EXCLUDE REGEX "cmake-build-")
+
+# 3. Loop through every C source file and generate a standalone executable target
+foreach(FILE ${C_FILES})
+    # Extract the base file name without extension (e.g., 'Ex01_fork-test.c' -> 'Ex01_fork-test')
+    get_filename_component(TARGET_NAME ${FILE} NAME_WE)
+
+    # Ensure target names are unique if duplicate file names exist across different subfolders
+    if(TARGET ${TARGET_NAME})
+        get_filename_component(PARENT_DIR ${FILE} DIRECTORY)
+        get_filename_component(DIR_NAME ${PARENT_DIR} NAME)
+        set(TARGET_NAME "${DIR_NAME}_${TARGET_NAME}")
+    endif()
+
+    # Create the individual executable target for the C file
+    add_executable(${TARGET_NAME} ${FILE})
+
+    # Direct output executable binary to the main build directory
+    set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+endforeach()
