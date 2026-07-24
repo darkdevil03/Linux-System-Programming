@@ -5,6 +5,9 @@
 
 int l = 78; // global value
 
+// Note: the order of calling process's statements. it's depends on the process scheduler of subsystem!
+// Therefore, the output lines order will changes while run them multiple times!
+
 int main()
 {
     int *ptr = malloc(1024 * 1024); // Allocate 1MB
@@ -59,12 +62,14 @@ int main()
         // Parent's view of *ptr remains unchanged (42)
         printf("Parent: \n");
         printf("   |-------> Ptr = %d, value is unchanged by child process !\n ",*ptr);
+        printf("Parent process instructions completed successfully! \n");
         } else {
             perror("fork failed");
             return 1;
         }
 
-    free(ptr);
-    printf("Parent process instructions completed successfully! \n");
+    free(ptr); // ptr is free from both parent and child memory layout independently.
+    // sample for above comment line!
+    printf("\n\t I called by both parent and child before their last statement!!\n");
     return 0;
 }
