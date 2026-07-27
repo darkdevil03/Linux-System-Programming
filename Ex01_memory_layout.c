@@ -1,5 +1,27 @@
+/*
+What is Process ?
+        A process is a program in execution. When we write source code in C or C++ and compile it, the compiler generates an executable binary file.
+        This executable file is called a program. When the program is loaded into memory and executed, it becomes a process.
+
+        A process is an 'active' entity instead of a program, which is considered a 'passive' entity.
+        A single program can create many processes when run multiple times;
+        for example, when we open a .exe or binary file multiple times, multiple instances begin (multiple processes are created).
+
+    Memory Layout of a Process :
+        A process in memory is divided into several distinct sections, each serving a different purpose.
+        Here's how a process typically looks in memory.
+
+
+            Text Section: A text or code segment contains executable instructions. It is typically a read only section
+            Stack: The stack contains temporary data, such as function parameters, returns addresses, and local variables.
+            Data Section: Contains the global variable.
+            Heap Section: Dynamically memory allocated to process during its run time.
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
+
 
 // --- BSS Segment (Uninitialized Data) ---
 int global_uninit;
