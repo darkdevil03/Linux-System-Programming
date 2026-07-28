@@ -56,15 +56,15 @@ int main() {
 
     What is happening?
         Sub-reapers and User-level systemd:Traditionally, all orphaned processes in Linux were automatically adopted by the root system initializer (PID 1).
-        However, modern Linux kernels added a feature allowing user-space service managers (like systemd --user, which manages your desktop session or SSH login session) to act as a "sub-reaper".
+        However, modern Linux kernels added a feature allowing user-space service managers (like systemd --user, which manages our desktop session or SSH login session) to act as a "sub-reaper".
 
     Where did 3216 come from?
-        The process with PID 3216 is likely your user-specific instance of systemd (or a shell/session manager like gnome-session or ssh daemon tied to your user session).
-        When your parent process (12000) terminates instantly, instead of handing the child (12001) over to root (PID 1), your local session manager (3216) catches and adopts the orphan process.
+        The process with PID 3216 is likely our user-specific instance of systemd (or a shell/session manager like gnome-session or ssh daemon tied to our user session).
+        When our parent process (12000) terminates instantly, instead of handing the child (12001) over to root (PID 1), our local session manager (3216) catches and adopts the orphan process.
 
     To see PID 1 instead:
-     -> If you want to force the child to be adopted by system-wide PID 1,
-     -> you have to ensure the parent process exits before the child finishes,
-     -> but you also need the child to outlive the user session context (or run it as a true background daemon outside of a tracked user scope).
-     -> However, seeing 3216 on Ubuntu is completely normal behavior for modern Linux desktop/server environments—it means your user session manager successfully acted as the adoptive parent for the orphan.
+     -> If We want to force the child to be adopted by system-wide PID 1,
+     -> We have to ensure the parent process exits before the child finishes,
+     -> but We also need the child to outlive the user session context (or run it as a true background daemon outside of a tracked user scope).
+     -> However, seeing 3216 on Ubuntu is completely normal behavior for modern Linux desktop/server environments—it means our user session manager successfully acted as the adoptive parent for the orphan.
 */
