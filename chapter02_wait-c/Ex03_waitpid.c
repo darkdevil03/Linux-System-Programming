@@ -1,3 +1,12 @@
+/**
+    Scenario: Demonstrates process creation (fork) and specific child synchronization (waitpid).
+
+    Details:
+        This program creates a parent-child process relationship. The parent process
+        spawns a child, simulates waiting, and uses waitpid() to retrieve the exact
+        exit status of that specific child process, preventing orphan/zombie states.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
