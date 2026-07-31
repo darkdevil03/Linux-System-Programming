@@ -1,75 +1,106 @@
+/**
+    Scenario: Demonstrates zero-cost shared memory reading without triggering Copy-on-Write (COW).
+
+    Details:
+            Explains how parent and child processes safely read from the same underlying
+           physical memory page simultaneously without causing a kernel-level page copy.
+ */
+
 #include <stdio.h>
-#include <stdlib.h>  // dynamic memory
-#include <unistd.h> // fork
-#include <sys/wait.h> // wait
+#include <stdlib.h>   // Required for dynamic memory allocation (malloc, free)
+#include <unistd.h>   // Required for fork() system call
+#include <sys/wait.h> // Required for wait() process synchronization
 
-int l = 78; // global value
+/* ========================================================================== */
+/* GLOBAL VARIABLE SCOPE (.data segment)                                      */
+/* ========================================================================== */
+int global_val = 78; // Initialized global variable shared in concept
 
-// Note: the order of calling process's statements. it's depends on the process scheduler of subsystem!
-// Therefore, the output lines order will changes while run them multiple times!
+/* 
+ * NOTE: The execution order of parent and child processes depends entirely 
+ * on the operating system's process scheduler. Output lines may interleave 
+ * differently across multiple runs.
+ */
 
 int main()
 {
-    int *ptr = malloc(1024 * 1024); // Allocate 1MB
-    *ptr = 42;
+    /* ====================================================================== */
+    /* HEAP ALLOCATION & INITIALIZATION                                       */
+    /* ====================================================================== */
+    // Allocate 1MB on the heap. 'ptr' holds the virtual address on the stack.
+    int *ptr = (int *)malloc(1024 * 1024); 
+    if (ptr == NULL) {
+        perror("Memory allocation failed");
+        return 1;
+    }
+    *ptr = 42; // Initialize the heap memory value to 42
 
+    /* ====================================================================== */
+    /* PROCESS CREATION VIA FORK()                                            */
+    /* ====================================================================== */
+    pid_t pid = fork(); // <--- PROCESS DUPLICATION OCCURS HERE
 
-    pid_t pid = fork(); // <--- COW HAPPENS HERE
+    if (pid < 0) {
+        // Error handling if fork fails
+        perror("fork failed");
+        free(ptr);
+        return 1;
+    } 
+    else if (pid == 0) {
+        /* ================================================================== */
+        /* CHILD PROCESS CONTEXT (READ-ONLY ACCESS)                           */
+        /* ================================================================== */
+        // At this point, the child shares the exact same physical memory page 
+        // as the parent. No write is performed here.
 
-    if (pid == 0) {
-        // Child Process
-        // At this point, Child and Parent share the SAME 1MB page.
-        // No copy happened yet.
-
-        // IF we read:
         printf("\n|-------------------------------------------|\n");
-        printf("|           Child Process start!            |\n");
+        printf("|            Child Process start!           |\n");
         printf("|-------------------------------------------|\n");
-        printf("Child : \n"); // Fast! Just a read.
-        printf("   |-------> Ptr = %d\n",*ptr);
+        
+        // READ OPERATION: Fast and zero-cost. 
+        // No COW is triggered because the child only reads the value.
+        printf("Child  : Reading shared memory value -> Ptr = %d (No COW triggered)\n", *ptr);
 
-        // IF we write:
-        //*ptr = 99;          // TRAP!
-                            // Kernel stops here.
-                            // Allocates NEW 1MB page.
-                            // Copies 1MB.
-                            // Updates Child's pointer.
-                            // Resumes.
-        // Now Child has its own 1MB. Parent still has 42.
-        printf("Child process modify the ptr value to : %d\n",*ptr);
-        printf("Child process done! \n");
-    }else if (pid > 0) {
-        // Parent Process
-        printf("|-------------------------------------------|\n");
+        printf("Child process execution completed successfully!\n");
+    } 
+    else {
+        /* ================================================================== */
+        /* PARENT PROCESS CONTEXT                                             */
+        /* ================================================================== */
+        printf("\n|-------------------------------------------|\n");
         printf("|            Parent Process start!          |\n");
         printf("|-------------------------------------------|\n");
-        printf("Parent: \n");
-        printf("   |-------> Child PID = %d\n", pid);
-        printf("   |-------> Ptr = %d\n",*ptr);
+        
+        printf("Parent : Child PID created = %d\n", pid);
+        printf("Parent : Initial read -> Ptr = %d\n", *ptr);
 
-        *ptr=*ptr+1;
-        printf("Incremented ptr by 1 : %d\n",*ptr);
+        // WRITE OPERATION: Parent modifies the value. 
+        // This triggers a write operation in the parent's context.
+        *ptr = *ptr + 1; 
+        printf("Parent : Incremented ptr by 1 -> New Ptr = %d\n", *ptr);
 
-        printf("\nWaiting for child process complete!,Then other statements of parent process will be completes \n");
+        printf("\nParent : Waiting for the child process to complete...\n");
 
-        // Wait for child to finish
-        wait(nullptr); // Requires <sys/wait.h>
+        // Synchronize execution: block parent until the child process finishes
+        wait(NULL); 
 
         printf("\n|-------------------------------------------|\n");
-        printf("|    Parent start remaining instructions!   |\n");
+        printf("|    Parent resumed remaining instructions! |\n");
         printf("|-------------------------------------------|\n");
 
-        // Parent's view of *ptr remains unchanged (42)
-        printf("Parent: \n");
-        printf("   |-------> Ptr = %d, value is unchanged by child process !\n ",*ptr);
-        printf("Parent process instructions completed successfully! \n");
-        } else {
-            perror("fork failed");
-            return 1;
-        }
+        // Parent verifies its own isolated state post-synchronization
+        printf("Parent : Final Ptr value = %d (Unaffected by child since child only read)\n", *ptr);
+        printf("Parent process instructions completed successfully!\n");
+    }
 
-    free(ptr); // ptr is free from both parent and child memory layout independently.
-    // sample for above comment line!
-    printf("\n\t I called by both parent and child before their last statement!!\n");
+    /* ====================================================================== */
+    /* INDEPENDENT MEMORY CLEANUP                                             */
+    /* ====================================================================== */
+    // Both parent and child reach this point independently and must free 
+    // their respective virtual memory mapping references.
+    free(ptr); 
+
+    printf("\n\t[INFO] Executed by both parent and child before process termination.\n");
+    
     return 0;
 }
