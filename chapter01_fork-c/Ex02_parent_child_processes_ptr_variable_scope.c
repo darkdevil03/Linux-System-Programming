@@ -89,7 +89,7 @@ int main()
         printf("\nParent : Waiting for the child process to terminate...\n");
 
         // Synchronize execution: block parent until the child process completes
-        wait(NULL);
+        wait(nullptr);
 
         printf("\n|-------------------------------------------|\n");
         printf("|    Parent resumed remaining instructions! |\n");
@@ -100,7 +100,7 @@ int main()
     }
 
     /* ====================================================================== */
-    /* INDEPENDENT MEMORY CLEANUP                                             */
+    /*                      INDEPENDENT MEMORY CLEANUP                        */
     /* ====================================================================== */
     // Both parent and child execute this line independently because they are
     // separate processes. Each must free its own virtual memory mapping.
