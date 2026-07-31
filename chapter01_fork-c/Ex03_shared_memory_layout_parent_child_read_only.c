@@ -29,7 +29,7 @@ int main()
         printf("   |-------> Ptr = %d\n",*ptr);
 
         // IF we write:
-        *ptr = 99;          // TRAP!
+        //*ptr = 99;          // TRAP!
                             // Kernel stops here.
                             // Allocates NEW 1MB page.
                             // Copies 1MB.
