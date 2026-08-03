@@ -7,11 +7,16 @@
 
 #include  <stdio.h>
 
+int i = 10;
+char *ptr3 = "hello";
+
 int main() {
 
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};  // Stack segment
 
     int *ptr = arr; //*ptr = &arr[0]; // points to arr[0]
+
+    char *ptr2 = "Hello";
 
 
     printf("Address of arr = %p\n", arr);
@@ -30,6 +35,12 @@ int main() {
     for (int i = 4; i <= 8; i++) {
         printf("Address of arr[%d] = %p ; and it's value = %d\n", i, (ptr+i),*(ptr+i));
     }
+
+
+    // Altering the value via ptr
+    *(ptr+4) = 8;
+    printf("\nptr[4] value changed to 8: \n");
+    printf("Address of arr[4] = %p ; and it's value = %d\n", (void*)(4+ptr),*(4+ptr));
 
     return 0;
 }
