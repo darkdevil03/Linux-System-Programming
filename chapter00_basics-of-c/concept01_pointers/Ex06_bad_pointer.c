@@ -31,6 +31,7 @@
 
 static void badAllocate(int *p) {
     p =  malloc(sizeof(int)); // Only changes the local copy 'p'
+    printf("\nCreated new heap and allocated values to it....\n");
     *p = 42;
 }
 
