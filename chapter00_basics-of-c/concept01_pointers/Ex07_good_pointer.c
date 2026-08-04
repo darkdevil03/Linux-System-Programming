@@ -10,7 +10,7 @@ static void goodAllocate(int **dPtr) {
 int main() {
 
     int *mainPtr = nullptr;
-    printf("\nBefore good allocate function called:\n");
+    printf("\nBefore goodAllocate function called:\n");
     printf("mainPtr\n");
     printf("   |------> address : %p\n", &mainPtr);
     printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
@@ -23,7 +23,7 @@ int main() {
     if (mainPtr == nullptr) {
         printf("mainPtr is still pointing to nullptr!!");
     }else {
-        printf("\nAfter good allocate function called:\n");
+        printf("\nAfter goodAllocate function called:\n");
         printf("mainPtr\n");
         printf("   |------> address : %p\n", &mainPtr);
         printf("   |------> value hold (refers to address holding) : %p\n", mainPtr);
