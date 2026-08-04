@@ -54,8 +54,12 @@ int main() {
 
     if (mainPtr == nullptr) { // similar to ptr == NULL
         printf("\nAfter badAllocate function called:\n");
-        printf("mainPtr still pointing to %p:\n", mainPtr);
-        printf("It defines that badAllocate function is pass by value approach!\n");
+        printf("mainPtr\n");
+        printf("   |------> address : %p\n", &mainPtr);
+        printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
+        printf("   |------> value of address holding (refers to dereference): NULL\n");
+        printf("mainPtr still pointing to nil, not to heap memory created at badAllocate function!!!\n");
+        printf("It defines that badAllocate function is a pass by value approach!!!!\n");
     }else {
         printf("value of ptr: %d\n", *mainPtr); // Only dereference if it's safe!
     }
