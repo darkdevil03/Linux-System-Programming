@@ -39,7 +39,7 @@ int main() {
     printf("|  int x = %d;  | <------------ |   int *ptr = &x;  | <------------ | int **dptr = &ptr;|\n", age);
     printf("+---------------+               +-------------------+               +-------------------+\n");
     printf("Address: %p         Address: %p             Address: %p\n",&age, &singlePointer, &doublePointer);
-    printf("Value: %d                       Value: %p               Value: %p\n",*singlePointer, *doublePointer, doublePointer);
+    printf("Value: %d                       Value: %p               Value: %p\n",**doublePointer, *doublePointer, doublePointer);
 
     /**
      After running, we got below as output:
