@@ -41,14 +41,23 @@ int main() {
             set it to NULL to prevent it from pointing to a random, potentially protected memory location
             (a "wild pointer").
     */
-    int *ptr = nullptr; // similar NULL
-    badAllocate(ptr);
-    // CRASH: ptr is still NULL here because badAllocate received a copy of ptr
+    int *mainPtr = nullptr; // similar NULL
+    printf("\nBefore badAllocate function called:\n");
+    printf("mainPtr\n");
+    printf("   |------> address : %p\n", &mainPtr);
+    printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
+    printf("   |------> value of address holding (refers to dereference): NULL\n"); /* if put *mainPtr we get segmentation error due to nil address doesn't have physical location in RAM,
+                                                                                             to avoid that, here we just printing NULL (for our understanding!).
+                                                                                            */
+    badAllocate(mainPtr); // Why &mainPtr not passed to hold address this pointer to function single pointer refer Ex05_double_pointer.c
+    // CRASH: ptr is still NULL here because badAllocate received a copy of ptr.
 
-    if (ptr == nullptr) { // similar to ptr == NULL
-        printf("Pointer pointing to null!!");
+    if (mainPtr == nullptr) { // similar to ptr == NULL
+        printf("\nAfter badAllocate function called:\n");
+        printf("mainPtr still pointing to %p:\n", mainPtr);
+        printf("It defines that badAllocate function is pass by value approach!\n");
     }else {
-        printf("value of ptr: %d\n", *ptr); // Only dereference if it's safe!
+        printf("value of ptr: %d\n", *mainPtr); // Only dereference if it's safe!
     }
 
     return 0;
