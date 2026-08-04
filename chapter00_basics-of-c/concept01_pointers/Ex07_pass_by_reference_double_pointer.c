@@ -19,8 +19,10 @@
 #include <stdlib.h>
 
 static void goodAllocate(int **dPtr) {
+    // '*dPtr' dereferences the double pointer to reach the original 'mainPtr' in main
     *dPtr = malloc(sizeof(int));
     printf("\nCreated new heap and allocated values to it....\n");
+    // '**dPtr' dereferences twice to reach the actual allocated memory block
     **dPtr = 20;
 }
 
