@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int main () {
-
-    printf("Hello ppl, This is new program!!!\n");
-    printf("New program \n");
-    printf("     |-------------> pid : %d\n", getpid());
-    printf("     |-------------> ppid : %d\n", getppid());
+int main (int argc , char *argv[]) {
+    printf("[NEW PROGRAM] I am the %s running!\n", argv[0]);
+    printf("[NEW PROGRAM] My Process ID (PID) is: %d\n", getpid());
+    printf("[NEW PROGRAM] My Process ID (PID) is: %d\n", getppid());
 
     return 0;
 }
