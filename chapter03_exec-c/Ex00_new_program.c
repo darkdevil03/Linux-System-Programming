@@ -1,3 +1,8 @@
+/**
+    Note: Compile this code then compile and run Ex01_exec_syntax.c and other required programs for understanding of Exec family() and their members type.
+    For explanation of Exec() family members are respectively added in this directory program fro Ex01_
+ */
+
 #include <stdio.h>
 #include <unistd.h>
 
