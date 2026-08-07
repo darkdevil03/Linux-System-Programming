@@ -9,18 +9,6 @@
         When you call exec(), the OS kicks out the current passengers (your old code) and puts new passengers inside (the new program).
         However, it is still the exact same taxi with the exact same license plate.
 
-        The Breakdown:
-            What gets ERASED (User Space replaced):
-                -> Text Segment: Your old program's compiled C code is wiped and replaced with the new program's code.
-                -> Data/BSS Segments: Global and static variables from the old program are gone.
-                -> Heap: Dynamically allocated memory (malloc) from the old program is freed/replaced.
-                -> Stack: Local variables and function call history are wiped clean.
-            What is PRESERVED (Kernel Space kept)
-                -> Process ID (PID): The new program runs under the exact same PID.
-                -> Parent Process ID (PPID): The parent remains the same.
-                -> File Descriptors: Any files the old program opened (like text files or network sockets) stay open
-                and can be used by the new program (unless explicitly told to close).
-
     Scenario:
         The best way to prove that the kernel space (the process identity) is not destroyed is to check the Process ID (PID) before and after calling exec().
         To do this, we need two separate C files.
@@ -30,7 +18,6 @@
             ( Compile this first: gcc new_program.c -o new_program
                                                 or
              use IDE binary file name { I have used the IDE generated binary file after compiling} )
-
 */
 
 
@@ -51,6 +38,35 @@ int main() {
     // If exec() is successful, this line will NEVER print,
     // because the user space holding this code was erased!
     printf("This will never print.\n");
+
+    /**
+      Our sample output:
+        [MAIN PROGRAM] I am starting up.
+        [MAIN PROGRAM] My Process ID (PID) is: 7020
+        [MAIN PROGRAM] My Parent Process ID (PID) is: 5422
+        [MAIN PROGRAM] Calling exec() now. My user space segments will be erased, goodbye!!
+        --------------------------------------------------
+        [NEW PROGRAM] I am the new program via exec family running!
+        [NEW PROGRAM] My Process ID (PID) is: 7020
+        [NEW PROGRAM] My Process ID (PID) is: 5422
+
+
+            Notice how the PID is exactly the same (7020) and PPID also.
+            The Operating System (kernel space) didn't destroy the process;
+            it just swapped out the brain (user space) of the process!
+
+        The Breakdown:
+            What gets ERASED (User Space replaced):
+                -> Text Segment: Your old program's compiled C code is wiped and replaced with the new program's code.
+                -> Data/BSS Segments: Global and static variables from the old program are gone.
+                -> Heap: Dynamically allocated memory (malloc) from the old program is freed/replaced.
+                -> Stack: Local variables and function call history are wiped clean.
+            What is PRESERVED (Kernel Space kept)
+                -> Process ID (PID): The new program runs under the exact same PID.
+                -> Parent Process ID (PPID): The parent remains the same.
+                -> File Descriptors: Any files the old program opened (like text files or network sockets) stay open
+                and can be used by the new program (unless explicitly told to close).
+     */
 
     return 0;
 }
