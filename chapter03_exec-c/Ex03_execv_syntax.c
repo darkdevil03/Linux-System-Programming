@@ -3,7 +3,7 @@
         Demonstration of the fork-exec-wait pattern using execv().
 
     Details:
-        This program creates a child process that replaces its execution image with the '/bin/ls -l' command using execv().
+        This program creates a child process that replaces its execution image with the '/bin/ls -lR' command using execv().
         The parent process synchronizes with the child using wait() and analyzes its exit status.
  */
 
