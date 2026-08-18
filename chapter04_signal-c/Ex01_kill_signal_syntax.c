@@ -27,7 +27,7 @@ int main() {
      * We wrap it in an if-statement to handle potential errors
      * (e.g., process doesn't exist, or lack of permissions).
      */
-    if (kill(target_pid, SIGKILL) == -1) {
+    if (kill(target_pid,SIGKILL) == -1) {
         // perror will automatically print the specific reason for failure
         perror("[ERROR] Failed to send SIGKILL");
         return 1;
