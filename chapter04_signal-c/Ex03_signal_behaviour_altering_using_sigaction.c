@@ -1,25 +1,51 @@
+/**
+    Scenario:
+        Demonstration of catching signals using sigaction().
+
+    Details:
+        This program sets up a custom signal handler for SIGINT (Signal 2).
+        Instead of terminating when receiving an interrupt, it will execute
+        myHandler() and then resume its normal execution loop.
+ */
+
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <bits/sigaction.h>
 
+// 1. Define the custom signal handler
 static void myHandler(const int sig) {
-    printf("[Received signal : SIGINT OR %d]\n", sig);
+    printf("\n[Target] -> [Received signal: SIGINT (Signal %d)]\n", sig);
 }
 
 int main() {
-
+    // 2. Configure the sigaction structure
     struct sigaction act;
+
+    // Assign our custom function to handle the signal
     act.sa_handler = myHandler;
 
+    // Set flags to 0 (default behavior)
     act.sa_flags = 0;
-    act.sa_mask;
+
+    // Initialize the signal set to empty (don't block any extra signals during handler execution)
     sigemptyset(&act.sa_mask);
-    printf("[Signal action()] process id %d\n", getpid());
 
-    sigaction(2,&act,nullptr);
+    printf("[Target] Signal action setup complete. Process ID: %d\n", getpid());
 
+    /* * 3. Register the signal handler
+     * SIGINT (value 2) is the signal we want to catch.
+     * We pass the address of our configured 'act' struct.
+     * The third argument is NULL because we don't need to save the old action.
+     */
+    if (sigaction(SIGINT, &act, nullptr) == -1) {
+        perror("[ERROR] sigaction() failed");
+        return 1;
+    }
+
+    // 4. Infinite loop to keep the process alive
     while (1) {
-        printf("I am sleeping...\n");
+        printf("[Target] I am sleeping...\n");
         sleep(2);
     }
 
