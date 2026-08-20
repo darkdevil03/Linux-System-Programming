@@ -7,8 +7,9 @@
         (Interrupt) signal to that process to test its custom signal handler.
  */
 
-#include <signal.h>
 #include <stdio.h>
+#include<sys/types.h>
+#include <signal.h>
 
 int main() {
     int target_pid;
