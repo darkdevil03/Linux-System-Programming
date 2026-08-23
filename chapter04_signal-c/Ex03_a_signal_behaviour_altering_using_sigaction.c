@@ -16,6 +16,10 @@
 // 1. Define the custom signal handler
 static void myHandler(const int sig) {
     printf("\n[Target] -> [Received signal: SIGINT (Signal %d)]\n", sig);
+    // Simulate a long-running task inside the handler
+    sleep(10);
+
+    printf("[Target] -> Handler finished. Resuming main loop.\n\n");
 }
 
 int main() {

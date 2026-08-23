@@ -18,7 +18,7 @@ static void custom_handler(int signum) {
     printf("[Target] -> Handler is sleeping for 10 seconds...\n");
 
     // Simulate a long-running task inside the handler
-    sleep(10);
+    sleep(30);
 
     printf("[Target] -> Handler finished. Resuming main loop.\n\n");
 }
