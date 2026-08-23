@@ -38,7 +38,7 @@ int main() {
         printf("\n=== CVE Tracker Menu ===\n");
         printf("[Option 1] Insert new entries\n");
         printf("[Option 2] Search entries\n");
-        printf("[Option 0] Exit\n");
+        printf("[Option 3] Exit\n");
 
         int choice;
         printf("Enter your choice: ");
@@ -98,7 +98,7 @@ int main() {
                 // Search sub-menu loop
                 while (loop != 0) {
                     printf("\nOptions:\n");
-                    printf("1. Search by Code\n2. Search by Severity\n3. Search by Priority\n0. Return to Main Menu\n");
+                    printf("1. Search by Code\n2. Search by Severity\n3. Search by Priority\n4. Return to Main Menu\n");
 
                     int option;
                     printf("Select search option: ");
@@ -154,17 +154,20 @@ int main() {
                             }
                             break;
                         }
-                        case 0:
-                        default: {
+                        case 4: {
                             loop = 0; // Exit sub-menu
+                            printf("Exiting... Thank you!\n");
                             break;
+                        }
+                        default: {
+                            printf("[Error] Invalid selection. Try again.\n");
                         }
                     }
                 }
                 break;
             }
 
-            case 0: {
+            case 3: {
                 start = 0;
                 printf("Exiting... Thank you!\n");
                 break;
