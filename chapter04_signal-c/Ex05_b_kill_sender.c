@@ -11,9 +11,9 @@ int main() {
         printf("\n++====================================================++");
         printf("\n||               Process kill Sender                  ||\n");
         printf("++====================================================++\n");
-        printf("Options: \n  1.SIGINT Custom Handler Kill Manually Set Mask To Blocked Till Input Pass  "
-               "\n  2.SIGQUIT Custom Handler Kill Not Manually Set Mask \n  3.SIGHUP Kill Manually Set Mask To Blocked Till Input Pass"
-               "\n  4.SIGILL Kill Manually Set To Blocked Till Input Pass \n  5.Exit \n");
+        printf("Options: \n  1.SIGINT Custom Handler Kill  Isn't Manually Mask Set "
+               "\n  2.SIGQUIT Custom Handler Kill Manually Mask Set To Blocked Till Input Pass \n  3.SIGHUP Kill Manually Mask Set To Blocked Till Input Pass"
+               "\n  4.SIGILL Kill Manually Mask Set To Blocked Till Input Pass \n  5.Exit \n");
         printf(">>> Enter Your Choice : ");
         scanf("%d", &choice);
         printf("\n");

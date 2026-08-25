@@ -12,18 +12,19 @@
 #include <stdio.h>
 #include <unistd.h>
 
-// 1. Custom handler for SIGINT blocked signal execution
+// 1. Custom handler for SIGINT unblocked signal execution
 static void myHandlerSigInt(int sig) {
-    // After giving input SIGINT change the mask bit 1 to 0 (blocked to unblocked) status.
-    printf("\n[Target] -> [Received SIGINT (Signal %d) after the input passed!]\n", sig);
+    printf("\n[Target] -> [Received SIGINT (Signal %d) while waiting for the input!]\n", sig);
     printf("[Target] -> Sleeping for 15 seconds. Soon main will be resume...\n");
     sleep(15);
-    printf("[Target] -> Handler finished. Resuming main execution.\n\n");
+    printf("[Target] -> Handler finished. Resuming main execution { Note: Enter your input below if scanf not completed: }. \n");
+
 }
 
-// 1. Custom handler for SIGQUIT unblocked signal execution
+// 1. Custom handler for SIGQUIT blocked signal execution
 static void myHandlerSigQuit(int sig) {
-    printf("\n[Target] -> [Received SIGQUIT (Signal %d) while waiting for the input!]\n", sig);
+    // After giving input SIGQUIT change the mask bit 1 to 0 (blocked to unblocked) status.
+    printf("\n[Target] -> [Received SIGQUIT (Signal %d)  after the input passed!]\n", sig);
     printf("[Target] -> Sleeping for 15 seconds. Soon main will be resume...\n");
     sleep(15);
     printf("[Target] -> Handler finished. Resuming main execution.\n\n");
@@ -41,12 +42,12 @@ int main() {
     sigemptyset(&msk);
     // We can add multiple signal to block for important code without signal interruption as follow below:
     sigaddset(&msk, SIGHUP); // Add Hangup (Signal 1)
-    sigaddset(&msk, SIGINT); // Add Interrupt with custom behaviour or handler (Signal 2)
+    sigaddset(&msk, SIGQUIT); // Add Quit with custom behaviour or handler (Signal 3)
     sigaddset(&msk, SIGILL); // Add Illegal Instruction (Signal 4)
 
 
-    printf("[Target] SIGHUP (1), SIGINT (2) and SIGILL (4) will be blocked until input is passed.\n");
-    printf("[Target] Note: SIGQUIT not manually blocked. So, by default it is unblocked throughout the program.\n");
+    printf("[Target] SIGHUP (1), SIGQUIT (3) and SIGILL (4) will be blocked until input is passed.\n");
+    printf("[Target] Note: SIGINT not manually blocked. So, by default it is unblocked throughout the program.\n");
 
     // 3. Apply the mask to block the signals
     sigprocmask(SIG_BLOCK, &msk, nullptr);
@@ -64,12 +65,12 @@ int main() {
     // 4. Remove the mask to unblock the signals
     sigprocmask(SIG_UNBLOCK, &msk, nullptr);
 
-    printf("[Target] SIGHUP (1), SIGINT (2) and SIGILL (4) have been unblocked.\n");
+    printf("[Target] SIGHUP (1), SIGQUIT (3) and SIGILL (4) have been unblocked.\n");
     printf("[Target] Your favourite number is: %d\n", val);
 
     // 5. Infinite loop
     while (1) {
-        printf("[Target] Main loop running. Waiting for signals...\n");
+        printf("[Target] Main loop running. Waiting for unblocked signals...\n");
         sleep(2);
     }
 
