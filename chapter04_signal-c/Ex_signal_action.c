@@ -25,6 +25,23 @@
                 b) SIGSTOP (Signal 19): Forces immediate suspension (pause).
         If a programmer attempts to pass SIGKILL to signal(SIGKILL, SIG_IGN), the function will fail and return a SIG_ERR flag.
 
+Note: The difference between Signal Disposition and Signal Mask Commands
+    1. Signal Dispositions (The Action Commands)
+        These dictate what the process should do the moment a signal is actually delivered.
+        They are used as parameters for the signal() or sigaction() functions.
+            a) SIG_IGN (Ignore): The disposition is to silently discard the signal.
+            b) IG_DFL (Default): The disposition is to do whatever the operating system normally does for that signal (usually terminate or ignore).
+            c) (Custom Handler): Pointing to your own custom function (e.g., myHandler) is the third type of disposition.
+
+    2. Signal Mask Commands (The Queue Rules)
+        These are not dispositions. They are operational commands used exclusively with the sigprocmask() function to
+        tell the kernel how to modify the process's list of blocked (pending) signals.
+            a) SIG_BLOCK: Command to add signals to the blocked queue.
+            b) SIG_UNBLOCK: Command to remove signals from the blocked queue.
+            c) SIG_SETMASK: Command to completely replace the blocked queue with a brand-new list.
+
+    Think of Dispositions (SIG_IGN, SIG_DFL) as the "action plan" for when a signal arrives,
+    and Mask Commands (SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK) as the tools used to manage the "waiting room" for signals.
 */
 
 #include <stdio.h>
