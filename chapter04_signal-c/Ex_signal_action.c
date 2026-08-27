@@ -47,7 +47,6 @@ Note: The difference between Signal Disposition and Signal Mask Commands
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
-#include <stdlib.h>
 
 int main() {
     printf("[Target] Process ID: %d\n\n", getpid());
@@ -69,7 +68,7 @@ int main() {
     // Attempting to ignore SIGKILL will result in an error from the kernel.
     printf("[Target] Attempting to set SIGKILL (9) to SIG_IGN...\n");
     if (signal(SIGKILL, SIG_IGN) == SIG_ERR) {
-        perror("[Target WARNING] Failed to ignore SIGKILL");
+        printf("[Target WARNING] Failed to ignore SIGKILL!!!");
         printf("[Target] -> Note: The OS strictly prevents ignoring or blocking SIGKILL.\n");
     }
 
