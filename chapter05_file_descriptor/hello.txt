@@ -1,0 +1,2 @@
+Hey, all this txt file used for this chapter.
+So, we can know how to handle file descriptor hold this txt file.
