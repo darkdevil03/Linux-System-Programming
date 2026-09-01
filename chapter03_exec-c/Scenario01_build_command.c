@@ -1,8 +1,17 @@
 /**
 Scenario:
-    Demonstration of dynamically executing command-line arguments using execvp.
+    Single-Shot Command Execution (Wrapper Shell)
 
 Details:
+    Demonstration of dynamically executing command-line arguments using execvp.
+    Rather than running an infinite while loop to capture continuous user input,
+    this implementation isolates and executes exactly one dynamic command passed via terminal arguments.
+    It utilizes the fork() system call to create the duplicate child and relies on execvp() to
+    automatically search the system's $PATH for the executable program.
+    The parent process remains suspended via wait() until the child process terminates,
+    allowing the parent to cleanly read the exit status.
+
+Usage:
     This program takes commands directly from the terminal execution (e.g., ./program ls -la)
     and safely shifts the argument vector to isolate the target command from the shell executable.
  */
@@ -15,21 +24,22 @@ Details:
 int main(int size, char *args[]) {
     // 1. Validate that the user actually provided a command to run
     if (size < 2) {
-        printf("[Shell] Usage: %s <command> [args...]\n", args[0]);
+        printf("[AutoUserShell_Error] Usage: %s <command> [args...]\n", args[0]);
         return EXIT_FAILURE;
     }
+    printf("[NOTE] AutoUserShell runs commands automatically with SUDO privileges!! \n\n");
 
-    printf("myshell> ");
+    printf("SudoShell> ");
     for (int i = 1; i < size; i++) {
         printf("%s ",args[i]);
     }
     printf("\n");
-    
-    // 2. Create a duplicate process refers myshell
+
+    // 2. Create a duplicate process
     pid_t id = fork();
 
     if (id < 0) {
-        perror("[ERROR] Failed to fork child process.");
+        perror("[ERROR] Failed to fork SUDO privileges .");
         return EXIT_FAILURE;
     }
 
@@ -44,14 +54,14 @@ int main(int size, char *args[]) {
 
         /*
          * --- CRITICAL CONCEPT ---
-         * If execvp() is successful, the myshell process is completely replaced by args[1] such ls.
+         * If execvp() is successful, the SudoShell process is completely replaced by args[1] such ls.
          * The lines below ONLY execute if execvp() fails (e.g., typo in command).
          */
         printf("[%s ERROR] execvp() failed",args[1]);
         exit(5);
     }
     else {
-        // 4. Parent Process Execution Flow: treat as terminal program
+        // 4. Parent Process Execution Flow
         int status;
 
         // wait() blocks the parent until the child terminates
@@ -61,19 +71,33 @@ int main(int size, char *args[]) {
         if (WIFEXITED(status)) {
             const int exit_status = WEXITSTATUS(status);
 
-            printf("\n[myshell] %s terminated normally with exit status: %d\n", args[1], exit_status);
+            printf("\n[AutoUserShell] SudoShell terminated and switched back to AutoUserShell with exit status: %d\n", exit_status);
 
             // If exit_status is 5, our error handling caught an execvp() failure.
             if (exit_status == 5) {
-                printf("[myshell] Warning: Exit status 5 detected. The execvp() call likely failed.\n");
+                printf("[AutoUserShell] Warning: Exit status 5 detected. The %s program call likely failed.\n", args[1]);
             }
         } else {
-            printf("[myshell] Warning: %s terminated abnormally (e.g., killed by a signal).\n", args[1]);
+            printf("[AutoUserShell] Warning: SudoShell> %s terminated abnormally (e.g., killed by a signal).\n", args[1]);
         }
 
-        printf("[]");
+        printf("AutoUserShell> autoexit\n");
     }
 
 
     return EXIT_SUCCESS;
 }
+
+/*
+
+Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ gcc -o AutoUserShell Scenario01_build_command.c
+Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ ./AutoUserShell ls
+[NOTE] AutoUserShell runs commands automatically with SUDO privileges!!
+
+SudoShell> ls
+AutoUserShell  Ex00_new_program.c  Ex01_exec_syntax.c  Ex02_execlp_syntax.c  Ex03_execv_syntax.c  Ex04_execvp_syntax.c  Scenario01_build_command.c  UserShell  customShell
+
+[AutoUserShell] SudoShell terminated and switched back to AutoUserShell with exit status: 0
+AutoUserShell> autoexit
+
+ */
