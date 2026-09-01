@@ -10,10 +10,6 @@ Details:
     automatically search the system's $PATH for the executable program.
     The parent process remains suspended via wait() until the child process terminates,
     allowing the parent to cleanly read the exit status.
-
-Usage:
-    This program takes commands directly from the terminal execution (e.g., ./program ls -la)
-    and safely shifts the argument vector to isolate the target command from the shell executable.
  */
 
 #include <stdio.h>
@@ -89,15 +85,37 @@ int main(int size, char *args[]) {
 }
 
 /*
+Usage:
+    This program takes commands directly from the terminal execution (e.g., ./program ls -la)
+    and safely shifts the argument vector to isolate the target command from the shell executable.
 
-Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ gcc -o AutoUserShell Scenario01_build_command.c
-Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ ./AutoUserShell ls
-[NOTE] AutoUserShell runs commands automatically with SUDO privileges!!
+Our Terminal Usage:
+    Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ gcc -o AutoUserShell Scenario01_build_command.c
+    Ubuntu@Ubuntu:~/Clion/Linux-System-Programming/chapter03_exec-c$ ./AutoUserShell ls
+    [NOTE] AutoUserShell runs commands automatically with SUDO privileges!!
 
-SudoShell> ls
-AutoUserShell  Ex00_new_program.c  Ex01_exec_syntax.c  Ex02_execlp_syntax.c  Ex03_execv_syntax.c  Ex04_execvp_syntax.c  Scenario01_build_command.c  UserShell  customShell
+    SudoShell> ls
+    AutoUserShell  Ex00_new_program.c  Ex01_exec_syntax.c  Ex02_execlp_syntax.c  Ex03_execv_syntax.c  Ex04_execvp_syntax.c  Scenario01_build_command.c
 
-[AutoUserShell] SudoShell terminated and switched back to AutoUserShell with exit status: 0
-AutoUserShell> autoexit
+    [AutoUserShell] SudoShell terminated and switched back to AutoUserShell with exit status: 0
+    AutoUserShell> autoexit
+
+Real-World Application:
+    Implemented Application:
+        Security & Privilege Wrappers: Tools like sudo or custom security sandboxes use single-shot execution to intercept a command,
+        apply strict permission boundaries, and then trigger the target binary on behalf of the user.
+
+    Other Application:
+        Container Entrypoints: Docker and Kubernetes use this exact architecture for init scripts.
+                               The wrapper script performs initial environment setup,
+                               spawns the main container application using an exec function,
+                               and waits to catch the application's exit code to determine if the container crashed or shut down normally.
+
+        CI/CD Pipeline Runners: Automation systems (like GitHub Actions or Jenkins) spin up child processes for individual build steps using this pattern.
+                                The parent runner waits for the compilation or test command to finish and evaluates the integer exit status to mark a pipeline step as passed or failed.
+
+        Task Scheduling (Cron): Background schedulers wake up at specified times,
+                                fork a duplicate process to run the scheduled script, and evaluate the termination status to log whether the job succeeded.
+
 
  */
