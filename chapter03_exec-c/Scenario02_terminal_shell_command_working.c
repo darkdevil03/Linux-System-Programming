@@ -27,7 +27,7 @@ int main() {
         printf("shell_%d$ ", getpid());
 
         // 1. Parent reads input safely using fgets
-        if (!fgets(line, MAX_LINE, stdin)) {
+        if (fgets(line, MAX_LINE, stdin) == NULL) {
             printf("\n");
             break; // Exit on EOF (Ctrl+D)
         }
@@ -41,7 +41,7 @@ int main() {
         
         while (command[i] != NULL && i < MAX_ARGS - 1) {
             i++;
-            command[i] = strtok(NULL, " ");
+            command[i] = strtok(nullptr, " ");
         }
 
         // If the user just pressed Enter, skip to the next loop iteration
@@ -65,7 +65,7 @@ int main() {
 
         // 4. Child Process Execution Flow
         if (shell == 0) {
-            printf("[Shell_%d -> Executing: %s program]\n", getpid(), command[0]);
+            printf("[Shell_%d -> Executing: %s program]\n\n", getpid(), command[0]);
             
             // execvp requires the NULL-terminated array we built in the parent
             execvp(command[0], command);
@@ -84,13 +84,13 @@ int main() {
             
         if (WIFEXITED(status)) {
             int exit_code = WEXITSTATUS(status);
-            printf("[Shell_%d] process finished normally with exit code %d\n\n", terminated_shell_id, exit_code);
+            printf("\n[Shell_%d] process finished normally with exit code %d\n\n", terminated_shell_id, exit_code);
                 
             if (exit_code == 5) {
-                printf("[Shell_%d] exec member malfunctioned with exit code %d\n\n", terminated_shell_id, exit_code);
+                printf("\n[Shell_%d] exec member malfunctioned with exit code %d\n\n", terminated_shell_id, exit_code);
             }
         } else {
-            printf("[Shell_%d] process terminated abnormally (e.g., via signal)\n\n", terminated_shell_id);
+            printf("\n[Shell_%d] process terminated abnormally (e.g., via signal)\n\n", terminated_shell_id);
         }
     }
 
