@@ -51,7 +51,7 @@ int main() {
 
         // Handle built-in 'exit' command in the parent
         if (strcmp(command[0], "exit") == 0) {
-            printf("[Shell_%d] Exiting...\n",getpid());
+            printf("[Shell_%d] Program Exiting...\n",getpid());
             break;
         }
 
@@ -75,7 +75,7 @@ int main() {
              * If execvp() is successful, it never returns. The lines below 
              * ONLY execute if execvp() fails (e.g., typo in command).
              */
-            perror("[ERROR] execvp() malfunctioned");
+            perror("[ERROR] execvp() malfunctioned!!");
             exit(5);
         } 
         // 5. Parent Process Execution Flow
@@ -84,13 +84,13 @@ int main() {
             
         if (WIFEXITED(status)) {
             int exit_code = WEXITSTATUS(status);
-            printf("\n[Shell_%d] process finished normally with exit code %d\n\n", terminated_shell_id, exit_code);
+            printf("\n[Shell_%d -> process finished normally with exit code %d ]\n\n", terminated_shell_id, exit_code);
                 
             if (exit_code == 5) {
-                printf("\n[Shell_%d] exec member malfunctioned with exit code %d\n\n", terminated_shell_id, exit_code);
+                printf("\n[Shell_%d -> exec member malfunctioned with exit code %d ]\n\n", terminated_shell_id, exit_code);
             }
         } else {
-            printf("\n[Shell_%d] process terminated abnormally (e.g., via signal)\n\n", terminated_shell_id);
+            printf("\n[Shell_%d -> process terminated abnormally (e.g., via signal) ]\n\n", terminated_shell_id);
         }
     }
 
