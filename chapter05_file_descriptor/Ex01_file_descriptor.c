@@ -14,7 +14,7 @@ int main() {
     // O_CREAT: Create file if it doesn't exist
     // O_TRUNC: Truncate file to 0 length if it exists
     // 0644: Permissions (rw-r--r--)
-    fd = open("test_file.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+    fd = open("File00_test_file.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd == -1) {
         perror("Error opening file");
         return 1;
