@@ -1,23 +1,27 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 int main() {
 
-    printf("Enter the absolute path, relative path, or file (i.e existing in this program diectory) : ");
+    printf("Enter the absolute path, relative path, or file name : ");
     char file_path[512];
-    //fgets(file_path,sizeof(file_path),stdin);
+    if (fgets(file_path,sizeof(file_path),stdin) == NULL) {
+        perror("[ERROR] Don't enter null parameter!!");
+        return -1;
+    }
+    file_path[strcspn(file_path,"\n")] = '\0';
     printf("Reading File...\n");
 
-    int fd = open("File01_hello.txt",O_RDONLY);
+    int fd = open(file_path,O_RDONLY);
 
     if (fd == -1) {
-        perror("[ERROR] File is not exist!!\n");
-        close(fd);
+        perror("[ERROR] Enter correct file name ");
         return -1;
     }
 
-    char read_buf[20];
+    char read_buf[21];
     ssize_t read_bytes = read(fd,read_buf,20);
 
     if (read_bytes == -1) {
@@ -26,7 +30,10 @@ int main() {
         return -1;
     }
 
-    printf("Number od bytes read : %zd\n",read_bytes);
+    // Safely cap off the string with a null terminator based on how many bytes were actually read
+    read_buf[read_bytes] = '\0';
+
+    printf("Number of bytes read : %zd\n",read_bytes);
     printf("Read content : %s\n",read_buf);
 
     return 0;
