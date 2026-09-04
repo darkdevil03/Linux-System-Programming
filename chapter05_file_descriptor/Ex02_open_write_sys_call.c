@@ -13,7 +13,6 @@ int main() {
 
     if (fd_append_flag_index == -1) {
         printf("[ERROR] Failed to creating new file if not exist!!\n");
-        close(fd_append_flag_index);
         return -1;
     }
     printf("[SUCCESS] This program mapped to New_Write_File_Created.txt..\n");
