@@ -20,7 +20,7 @@ int main() {
     while (len != 0 && ((bytes_read = read(fd,*buf,len)!= 0) )) {
 
         if (bytes_read == -1) {
-            if (errno == EINT) {
+            if (errno == EINTR) {
                 continue;
             }
             perror("[ERROR] Failed to read from file!!");
@@ -28,8 +28,11 @@ int main() {
         }
 
         len = len - bytes_read;
-        buf = buf + bytes_read;
+        *buf = *buf + bytes_read;
     }
+
+    //printf("Read Bytes : %zd", bytes_read);
+    printf("Content in buf : %s", *buf);
 
     return 0;
 }
