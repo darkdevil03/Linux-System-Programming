@@ -4,12 +4,12 @@
 #include <unistd.h>
 
 int main() {
-    printf("Enter your text to write into File02_New_Write_File_Created.txt : ");
+    printf("Enter your text to write into File03_New_Write_File_Created.txt : ");
     char text_buffer[256];
     fgets(text_buffer,sizeof(text_buffer),stdin);
     printf("\n");
 
-    int fd_append_flag_index = open("File02_New_Write_File_Created.txt", O_WRONLY | O_CREAT , 0644);
+    int fd_append_flag_index = open("File03_New_Write_File_Created.txt", O_WRONLY | O_CREAT , 0644);
 
     if (fd_append_flag_index == -1) {
         printf("[ERROR] Failed to creating new file if not exist!!\n");
