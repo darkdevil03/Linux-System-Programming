@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -9,7 +10,7 @@ int main() {
     char file_path[512];
     if (fgets(file_path,sizeof(file_path),stdin) == NULL) {
         perror("[ERROR] Don't enter null parameter!!");
-        return -1;
+        return EXIT_FAILURE;
     }
     file_path[strcspn(file_path,"\n")] = '\0';
     printf("Reading File...\n");
@@ -18,7 +19,7 @@ int main() {
 
     if (fd == -1) {
         perror("[ERROR] Enter correct file name ");
-        return -1;
+        return EXIT_FAILURE;
     }
 
     char read_buf[21];
@@ -27,7 +28,7 @@ int main() {
     if (read_bytes == -1) {
         printf("[ERROR] File was corrupted or got signal!!\n");
         close(fd);
-        return -1;
+        return EXIT_FAILURE;
     }
 
     // Safely cap off the string with a null terminator based on how many bytes were actually read
@@ -36,5 +37,5 @@ int main() {
     printf("Number of bytes read : %zd\n",read_bytes);
     printf("Read content : %s\n",read_buf);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

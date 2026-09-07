@@ -1,8 +1,10 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int main() {
-    char path[] = "/home/xap/Clion/Linux-System-Programming/chapter05_file_descriptor/File01_hello.txt";
+    char path[] = "/home/usr/Clion/Linux-System-Programming/chapter05_file_descriptor/File01_hello.txt";
     int fd_index = open(path, O_RDONLY);
     if (fd_index == -1) {
         printf("[ERROR] Failed to locate the file from hard disk to RAM and fd via sys_call");
@@ -10,5 +12,6 @@ int main() {
         printf("Successfully located the path file from hard disk to RAM and fd via sys_call");
     }
 
-    return 0;
+    close(fd_index);
+    return EXIT_SUCCESS;  // represents return 0;
 }

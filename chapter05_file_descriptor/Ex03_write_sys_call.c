@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -13,7 +14,7 @@ int main() {
 
     if (fd_append_flag_index == -1) {
         printf("[ERROR] Failed to creating new file if not exist!!\n");
-        return -1;
+        return EXIT_FAILURE;
     }
     printf("[SUCCESS] This program mapped to New_Write_File_Created.txt..\n");
 
@@ -22,15 +23,15 @@ int main() {
     if (byte_written == -1) {
         printf("[ERROR] Failed to write data into newly created file ");
         close(fd_append_flag_index);
-        return -1;
+        return EXIT_FAILURE;
     }
     printf("[SUCCESS] Written %zd bytes.\n", byte_written);
 
 
     if (close(fd_append_flag_index) == -1) {
         printf("[ERROR] Failed To Close File Descriptor");
-        return -1;
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

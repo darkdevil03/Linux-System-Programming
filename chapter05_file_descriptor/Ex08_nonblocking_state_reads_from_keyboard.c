@@ -73,5 +73,5 @@ int main() {
     // 4. Cleanup: Restore the terminal back to its normal blocking state
     fcntl(STDIN_FILENO, F_SETFL, current_fd_stdin_setting);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
