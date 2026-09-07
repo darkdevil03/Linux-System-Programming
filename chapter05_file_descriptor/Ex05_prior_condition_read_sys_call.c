@@ -1,38 +1,50 @@
-
-#include <errno.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
 
 int main() {
-
-    int fd = open ("File00_test_file.txt",O_RDONLY);
+    int fd = open("File00_test_file.txt", O_RDONLY);
 
     if (fd == -1) {
-        perror("[ERROR] File descriptor failed create!!!\n");
+        perror("[ERROR] File descriptor failed to open");
         return -1;
     }
 
-    char *buf[21];
-    ssize_t bytes_read;
-    int len = 20;
+    // Declare a standard character array
+    char buf[21]; 
+    
+    // Use a tracking pointer to advance through the buffer
+    char *ptr = buf; 
+    
+    ssize_t bytes_read = 0;
+    size_t len = 20;
 
-    while (len != 0 && ((bytes_read = read(fd,*buf,len)!= 0) )) {
-
+    while (len != 0 && (bytes_read = read(fd, ptr, len)) != 0) {
         if (bytes_read == -1) {
             if (errno == EINTR) {
-                continue;
+                printf("Got interruption signal \n");
+                continue; // Interrupted by signal, safely try again
             }
-            perror("[ERROR] Failed to read from file!!");
+            perror("[ERROR] Failed to read from file");
             break;
         }
 
-        len = len - bytes_read;
-        *buf = *buf + bytes_read;
+        len -= bytes_read;
+        
+        // Advance the tracking pointer, leaving the base 'buf' intact
+        ptr += bytes_read; 
     }
 
-    //printf("Read Bytes : %zd", bytes_read);
-    printf("Content in buf : %s", *buf);
+    // Add the null terminator exactly where the reading stopped
+    *ptr = '\0';
+    //buf[bytes_read] = '\0';
 
+    printf("Number bytes read from file : %zd\n",bytes_read);
+    // Print from the original base address ('buf')
+    printf("Content in buf : %s\n", buf);
+
+    // 7. Always clean up
+    close(fd); 
     return 0;
 }
