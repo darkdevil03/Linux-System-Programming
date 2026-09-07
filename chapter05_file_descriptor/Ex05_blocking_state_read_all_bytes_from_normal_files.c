@@ -1,6 +1,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 int main() {
@@ -8,15 +9,15 @@ int main() {
 
     if (fd == -1) {
         perror("[ERROR] File descriptor failed to open");
-        return -1;
+        return EXIT_FAILURE;
     }
 
     // Declare a standard character array
-    char buf[21]; 
-    
+    char buf[21];
+
     // Use a tracking pointer to advance through the buffer
-    char *ptr = buf; 
-    
+    char *ptr = buf;
+
     ssize_t bytes_read = 0;
     size_t len = 20;
 
@@ -31,20 +32,19 @@ int main() {
         }
 
         len -= bytes_read;
-        
+
         // Advance the tracking pointer, leaving the base 'buf' intact
-        ptr += bytes_read; 
+        ptr += bytes_read;
     }
 
     // Add the null terminator exactly where the reading stopped
-    *ptr = '\0';
-    //buf[bytes_read] = '\0';
+    *ptr = '\0';     // buf[bytes_read] = '\0'; // we can use this for adding null terminator.
 
     printf("Number bytes read from file : %zd\n",bytes_read);
     // Print from the original base address ('buf')
     printf("Content in buf : %s\n", buf);
 
     // 7. Always clean up
-    close(fd); 
+    close(fd);
     return 0;
 }
