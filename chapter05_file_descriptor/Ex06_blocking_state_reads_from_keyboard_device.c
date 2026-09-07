@@ -28,13 +28,14 @@ int main() {
         if (errno == EINTR) {
             printf("\nInterrupted by signal, but we could try again.\n");
         } else {
-            perror("Error reading");
+            perror("Error reading happened!!"); // press CTRL+D we get this statement invoked.
         }
         return EXIT_FAILURE;
     }
 
     // Cap the string and print it
     buf[bytes_read] = '\0';
+    printf("Number of data read: %zd\n", bytes_read);
     printf("Data received: %s", buf);
 
     return 0;
