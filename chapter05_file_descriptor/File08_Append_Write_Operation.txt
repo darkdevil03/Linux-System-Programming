@@ -1,0 +1,1 @@
+Hey, I am here append purpose! This data from Ex08_write_with_append_flag.c program. 
