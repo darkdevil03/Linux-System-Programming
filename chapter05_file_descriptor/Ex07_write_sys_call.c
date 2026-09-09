@@ -29,7 +29,7 @@ int main() {
     ssize_t byte_written = write(fd_append_flag_index,text_buffer,strlen(text_buffer));
 
     if (byte_written == -1) {
-        printf("[ERROR] Failed to write data into newly created file ");
+        printf("[ERROR] Failed to write data into %s\n",file_path);
         close(fd_append_flag_index);
         return EXIT_FAILURE;
     }
