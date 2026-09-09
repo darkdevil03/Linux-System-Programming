@@ -1,0 +1,2 @@
+hey
+, this file is created through Ex09_write_with_create_flag.c
