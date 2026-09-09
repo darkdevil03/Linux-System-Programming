@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int main() {
-    int fd_append_flag_index = open("/home/xap/Clion/Linux-System-Programming/chapter05_file_descriptor/File09_New_Write_File_Created.txt", O_WRONLY | O_CREAT | O_APPEND);
+    int fd_append_flag_index = open("/File09_New_Write_File_Created.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
 
     if (fd_append_flag_index == -1) {
         printf("[ERROR] File not exist!!\n");
