@@ -47,14 +47,16 @@ int main() {
         printf("[SUCCESS] Fsync done: FORCE_DATA_AND_METADATA_SYNC happen!!\n");
     }
 
-
     close(fd);
 
     int fd_dir = open("/home/usr/Clion/Linux-System-Programming/chapter05_file_descriptor/",O_RDONLY);
 
     if (fsync(fd_dir) == -1) {
         printf("[ERROR] Parent Directory fsync error!!\n");
+        printf("[WARNING-LAZY_SYNC] Kernel will take the control to sync newly created file to parent directory!!\n");
     }
+
+    printf("[SUCCESS] Fsync of parent directory success...\n");
 
     printf("Number of bytes written: %zd\n", written_bytes);
     printf("Content written to file: %s\n",write_buffer);
