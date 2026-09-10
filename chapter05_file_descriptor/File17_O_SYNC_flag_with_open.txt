@@ -1,0 +1,1 @@
+Line from Ex17_O_SYNC_flag_with_open.c : O_SYNC usage for write flag.. 
