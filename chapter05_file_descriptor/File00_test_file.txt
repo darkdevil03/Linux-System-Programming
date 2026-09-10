@@ -1,4 +1,4 @@
 Hello, Linux File Descriptors!
 Line from Ex11_fsync.c : Fsync related data!
 Line from Ex12_fdatasync.c : Fdatasync related data!
-Line from Ex13_combined_usage_of_fdatasync_fsync.c : Usage of b0th fsync & fdatasync! 
+Line from Ex14_combined_usage_of_fdatasync_fsync.c : Usage of b0th fsync & fdatasync!

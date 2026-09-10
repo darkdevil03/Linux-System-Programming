@@ -1,1 +1,0 @@
-Line from Ex14_fsync_and_create_flag_case.c : Usage fsync & new file created by program using create flag! 

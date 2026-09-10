@@ -8,7 +8,7 @@
 
 int main() {
 
-    int fd = open("File14_Fsync_With_Create_Flag.txt", O_CREAT | O_WRONLY | O_APPEND, 0644);
+    int fd = open("File15_Fsync_With_Create_Flag.txt", O_CREAT | O_WRONLY | O_APPEND, 0644);
 
     if (fd == -1) {
         printf("[ERROR] File open or create error!!\n");
