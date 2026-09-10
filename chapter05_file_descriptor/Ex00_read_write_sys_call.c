@@ -12,9 +12,8 @@ int main() {
     // 1. Open (or create) a file. Returns the File Descriptor (an integer).
     // O_RDWR: Read/Write mode
     // O_CREAT: Create file if it doesn't exist
-    // O_TRUNC: Truncate file to 0 length if it exists
     // 0644: Permissions (rw-r--r--)
-    fd = open("File00_test_file.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+    fd = open("File10_test_file.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
     if (fd == -1) {
         perror("Error opening file");
         return 1;
