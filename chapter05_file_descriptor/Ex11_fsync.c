@@ -6,7 +6,7 @@
 
 int main() {
 
-    int fd = open("/home/xap/Clion/Linux-System-Programming/chapter05_file_descriptor/File00_test_file.txt", O_WRONLY | O_APPEND);
+    int fd = open("File00_test_file.txt", O_WRONLY | O_APPEND);
 
     if (fd == -1) {
         printf("[ERROR] Failed to open file\n");
