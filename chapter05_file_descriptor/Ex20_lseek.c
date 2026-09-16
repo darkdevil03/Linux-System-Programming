@@ -18,7 +18,7 @@ int main() {
     // ---------------------------------------------------------
     // 1. SEEK_SET: Jump exactly to Byte 30 (Start of Line 4)
     // ---------------------------------------------------------
-    lseek(fd, 22, SEEK_SET);
+    lseek(fd, 11, SEEK_SET);
     read(fd, buffer, 10);
     printf("1. SEEK_SET (Pos 30): %s\n", buffer); // Prints: Line 04...
 
@@ -29,8 +29,8 @@ int main() {
     // ---------------------------------------------------------
     // We are at Byte 40. We want to skip Line 5 and Line 6.
     // 40 + 20 = Byte 60 (Start of Line 7)
-    lseek(fd, 3, SEEK_CUR);
-    read(fd, buffer, 10);
+    lseek(fd, 14, SEEK_CUR);
+    read(fd, buffer, 11);
     printf("2. SEEK_CUR (Pos +20): %s\n", buffer); // Prints: Line 07...
 
     // ---------------------------------------------------------
@@ -39,8 +39,8 @@ int main() {
     // The file is 100 bytes long.
     // We want to read the 9th line, which starts at Byte 80.
     // End (100) - 20 = Byte 80.
-    lseek(fd, 0, SEEK_END);
-    read(fd, buffer, 10);
+    lseek(fd, -11, SEEK_END);
+    read(fd, buffer, 14);
     printf("3. SEEK_END (Pos -20): %s\n", buffer); // Prints: Line 09...
 
     // Bonus Trick: Finding out where you are!
