@@ -2,14 +2,14 @@
     1. What is the use of Sparse Files and Holes?
         As the text states, a "hole" is a gap of zero-padded space inside a file.
         When a file contains these holes, it is called a sparse file.
+
         There are two massive benefits to using them:
-            Saving Massive Physical Disk Space:
+            Massive Physical Disk Space:
                 The most important feature of a hole is that it does not occupy any physical disk space.
                 If we create a 1-Gigabyte hole in a file, the file's logical size becomes 1 GB,
                 but it takes up exactly 0 bytes on our physical hard drive.
                 The operating system just makes a tiny note in its metadata saying,
                 "Pretend there are 1 billion zeros right here."
-
             Enhancing Performance:
                 Because the operating system doesn't actually have to write a billion physical zeros
                 to the hard drive, creating this hole is instantaneous.
@@ -75,13 +75,9 @@ int main() {
     write(fd, "START", 5);
     printf("Wrote 'START' at the beginning of the file.\n");
 
-    // 3. The Magic Jump: Seek 100 Megabytes past the end of the file!
-    // 100 MB = 100 * 1024 * 1024 bytes = 104,857,600 bytes
-
     // 3. The Magic Jump: Seek 5 MB past the end of the file!
     // 5 MB = 5 * 1024 * 1024 bytes = 5,242,880 bytes
     off_t massive_jump = 5 * 1024 * 1024;
-
 
     if (lseek(fd, massive_jump, SEEK_END) == (off_t)-1) {
         perror("Failed to jump");
@@ -98,7 +94,7 @@ int main() {
     close(fd);
 
     printf("\n[SUCCESS] File 'sparse_file.bin' created.\n");
-    printf("To the system, it looks like 100MB, but it takes up almost no physical disk space!\n");
+    printf("To the system, it looks like 5MB, but it takes up almost no physical disk space!\n");
 
     return EXIT_SUCCESS;
 }
