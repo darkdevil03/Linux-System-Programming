@@ -7,7 +7,7 @@
 
 int main() {
 
-    int fd = open("/home/xap/Clion/Linux-System-Programming/chapter05_file_descriptor/File00_test_file.txt", O_RDONLY);
+    int fd = open("File00_test_file.txt", O_RDONLY);
 
     if (fd == -1) {
         perror("[ERROR] Failed to open the file!!!\n");
