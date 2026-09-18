@@ -60,3 +60,24 @@ int main() {
     close(fd);
     return EXIT_SUCCESS;
 }
+
+/**
+After executing the above program Sample Output:
+        [SUCCESS] File opened successfully!
+
+        --- [BEFORE-TRUNCATE] Reading the file content ---
+            [SUCCESS] 67 Bytes read from the file...
+            [READ] Fetch content from file to buffer :
+        This file is used for truncate..!
+        Be careful, while using truncate.
+
+        [SUCCESS] Truncating the file content to 30-Bytes!!
+
+        --- [AFTER-TRUNCATE] Reading the file content ---
+            [SUCCESS] 30 Bytes read from the file...
+            [READ] Fetch content from file to buffer :
+        This file is used for truncate
+
+
+        Process finished with exit code 0
+ */
