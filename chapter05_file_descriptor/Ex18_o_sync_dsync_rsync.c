@@ -32,7 +32,7 @@ int main() {
     printf("\n|---------------------------------------------------------|\n");
     printf("| \t\t\t\t 2. O_DSYNC: The Sensor Log \t\t\t  |\n");
     printf("|---------------------------------------------------------|\n");
-    int fd_sensor = open("File18_sensor_log.txt", O_CREAT | O_WRONLY | O_APPEND | O_DSYNC, 0644);
+    int fd_sensor = open("Created_Files/File18_sensor_log.txt", O_CREAT | O_WRONLY | O_APPEND | O_DSYNC, 0644);
     if (fd_sensor != -1) {
         write(fd_sensor, write_buf, sizeof(write_buf)-1);
         printf("\t[SUCCESS] Sensor data safely written to physical disk.\n\n");

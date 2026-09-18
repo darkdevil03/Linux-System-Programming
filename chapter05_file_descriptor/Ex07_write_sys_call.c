@@ -6,7 +6,7 @@
 
 int main() {
 
-    char file_path[] = "File07_Existing_File_Write_Operations.txt";
+    char file_path[] = "Created_Files/File07_Existing_File_Write_Operations.txt";
     int fd_append_flag_index = open(file_path, O_WRONLY);
 
     if (fd_append_flag_index == -1) {

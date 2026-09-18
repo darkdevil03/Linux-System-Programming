@@ -7,7 +7,7 @@
 
 int main() {
 
-    int fd = open("File00_test_file.txt", O_RDONLY);
+    int fd = open("Created_Files/File00_test_file.txt", O_RDONLY);
 
     if (fd == -1) {
         perror("[ERROR] Failed to open the file!!!\n");

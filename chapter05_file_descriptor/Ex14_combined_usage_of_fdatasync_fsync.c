@@ -8,7 +8,7 @@
 
 int main() {
 
-    int fd = open("File00_test_file.txt", O_WRONLY | O_APPEND);
+    int fd = open("Created_Files/File00_test_file.txt", O_WRONLY | O_APPEND);
 
     if (fd == -1) {
         printf("[ERROR] File open error!!\n");

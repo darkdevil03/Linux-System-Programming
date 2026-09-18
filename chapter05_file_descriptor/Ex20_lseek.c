@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 int main() {
-    int fd = open("File20_data.txt", O_RDONLY);
+    int fd = open("Created_Files/File20_data.txt", O_RDONLY);
     char buffer[15]; // 14 bytes for data + 1 for null-terminator
     buffer[14] = '\0'; // Ensure string is safely terminated for printing
     ssize_t bytes_read = 0;

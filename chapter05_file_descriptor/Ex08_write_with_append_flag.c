@@ -9,7 +9,7 @@
 #include <asm-generic/errno-base.h>
 
 int main() {
-    char file_name[] = "File08_Append_Write_Operation.txt";
+    char file_name[] = "Created_Files/File08_Append_Write_Operation.txt";
     int fd = open(file_name,O_RDWR | O_APPEND);
     // O_RDWR used for before-write view the content then performing write combined with append flag,
     // For results then check that open file is append or over-write the existing content of that file what we wrote using write(). .

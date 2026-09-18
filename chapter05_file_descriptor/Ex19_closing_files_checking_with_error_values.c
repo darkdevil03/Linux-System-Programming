@@ -2,10 +2,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <asm-generic/errno-base.h>
 
 int main() {
-    int fd = open("/media/my_usb_drive/photo_backup.jpg", O_WRONLY | O_CREAT, 0644);
+    // Here, Below give your external usb drive connection path.
+    int fd = open("/media/my_usb_drive/photo_backup_info.txt", O_WRONLY | O_CREAT, 0644);
     if (fd == -1) return EXIT_FAILURE;
 
     // 1. We write the data. It returns success because it just goes into RAM.

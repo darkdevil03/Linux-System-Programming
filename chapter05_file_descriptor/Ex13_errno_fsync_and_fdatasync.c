@@ -22,7 +22,7 @@ int main() {
     printf("--- Testing EBADF ---\n");
 
     // 1. The Read-Only Scenario (This will SUCCEED)
-    int fd_readonly = open("File15_Fsync_With_Create_Flag.txt", O_RDONLY);
+    int fd_readonly = open("Created_Files/File15_Fsync_With_Create_Flag.txt", O_RDONLY);
     if (fd_readonly != -1) {
         // Here, we read some data from file path.
         // In case fd is opened in read: if case will true

@@ -13,7 +13,7 @@ int main() {
     // O_RDWR: Read/Write mode
     // O_CREAT: Create file if it doesn't exist
     // 0644: Permissions (rw-r--r--)
-    fd = open("File10_test_file.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+    fd = open("Created_Files/File10_test_file.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
     if (fd == -1) {
         perror("Error opening file");
         return 1;

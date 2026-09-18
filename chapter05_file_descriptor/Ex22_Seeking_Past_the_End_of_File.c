@@ -63,7 +63,7 @@
 
 int main() {
     // 1. Create a new file for writing
-    int fd = open("sparse_file.bin", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    int fd = open("Created_Files/sparse_file.bin", O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (fd == -1) {
         perror("Failed to open file");
         return EXIT_FAILURE;

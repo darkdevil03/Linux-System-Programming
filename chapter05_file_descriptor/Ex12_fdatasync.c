@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int main() {
-    char file_path[] = "File00_test_file.txt";
+    char file_path[] = "Created_Files/File00_test_file.txt";
     int fd = open(file_path, O_WRONLY | O_APPEND);
 
     if (fd == -1) {

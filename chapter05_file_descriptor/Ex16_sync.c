@@ -32,7 +32,7 @@
 
 int main() {
     // 1. The fsync() way (Targeted, Fast, Recommended)
-    int fd = open("File16_sync.txt", O_CREAT | O_WRONLY, 0644);
+    int fd = open("Created_Files/File16_sync.txt", O_CREAT | O_WRONLY, 0644);
     if (fd != -1) {
         write(fd, "Important data", 14);
 

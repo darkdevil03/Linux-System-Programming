@@ -8,7 +8,7 @@
 
 int main() {
 
-    int fd = open("File15_Fsync_With_Create_Flag.txt", O_CREAT | O_WRONLY | O_APPEND, 0644);
+    int fd = open("Created_Files/File15_Fsync_With_Create_Flag.txt", O_CREAT | O_WRONLY | O_APPEND, 0644);
 
     if (fd == -1) {
         printf("[ERROR] File open or create error!!\n");
@@ -49,7 +49,7 @@ int main() {
 
     close(fd);
 
-    int fd_dir = open("/home/usr/Clion/Linux-System-Programming/chapter05_file_descriptor/",O_RDONLY);
+    int fd_dir = open("/home/usr/Clion/Linux-System-Programming/Created_Files/chapter05_file_descriptor/",O_RDONLY);
 
     if (fsync(fd_dir) == -1) {
         printf("[ERROR] Parent Directory fsync error!!\n");

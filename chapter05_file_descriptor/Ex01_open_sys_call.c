@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 int main() {
-    char path[] = "/home/usr/Clion/Linux-System-Programming/chapter05_file_descriptor/File01_hello.txt";
+    char path[] = "/home/usr/Clion/Linux-System-Programming/chapter05_file_descriptor/Created_Files/File01_hello.txt";
     int fd_index = open(path, O_RDONLY);
     if (fd_index == -1) {
         printf("[ERROR] Failed to locate the file from hard disk to RAM and fd via sys_call");

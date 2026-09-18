@@ -8,7 +8,7 @@
 
 int main() {
 
-    int fd = open("File17_O_SYNC_flag_with_open.txt", O_CREAT | O_WRONLY | O_APPEND |O_SYNC, 0644);
+    int fd = open("Created_Files/File17_O_SYNC_flag_with_open.txt", O_CREAT | O_WRONLY | O_APPEND |O_SYNC, 0644);
 
     if (fd == -1) {
         printf("[ERROR] Failed to create/open file for writing.\n");

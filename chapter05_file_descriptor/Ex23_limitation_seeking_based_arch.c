@@ -64,7 +64,7 @@ int main() {
     // 1. Open the 3GB file.
     // We MUST use O_LARGEFILE. Otherwise, standard 32-bit open()
     // detects the file is >2GB and blocks access entirely.
-    int fd = open("massive.bin", O_RDONLY | O_LARGEFILE);
+    int fd = open("Created_Files/massive.bin", O_RDONLY | O_LARGEFILE);
     if (fd == -1) {
         perror("[ERROR] Failed to open file");
         return EXIT_FAILURE;
