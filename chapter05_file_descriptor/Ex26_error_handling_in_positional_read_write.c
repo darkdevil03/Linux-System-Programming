@@ -1,4 +1,46 @@
-#define _XOPEN_SOURCE 500
+/**
+    Theory: return values of pread and pwrite
+     Assume that in file there is data as -> Hello
+       a) Positive Number (Success): The function returns and says, "I successfully read 6 bytes."
+       b) Returns 0 for pread (EOF): The kernel ask physical location byte point,
+                                   but the file is completely empty. There is nothing left to pick up (End of File).
+       c) Returns 0 for pwrite: The kernel ask physical location byte point,
+                              but return nothing off (usually because you gave them 0 byte data to write into the file).
+
+        d) Returns -1 (Fatal Error): The job completely failed. They give you an error code (errno) explaining why it failed.
+
+            Deep Dive into error cases: What do the last two lines mean?
+                "For pread(), any valid read() or lseek() errno value is possible.
+                 For pwrite(), any valid write() or lseek() value is possible."
+
+                Because pread and pwrite are "all-in-one" functions,
+                they perform two separate jobs in a single, uninterruptible step:
+                    1) The Jump: Finding the exact byte location in the file (just like lseek()).
+                    2) The Transfer: Moving the data into or out of that location (just like read() or write()).
+
+            The above is pointing out that if pread() fails and returns -1,
+            we have to play detective. Did it fail during The Jump, or did it fail during The Transfer?
+            Because it does both jobs, it can suffer from the errors of both jobs.
+
+            Examples of "Jump" Errors (The lseek part):
+                1) EINVAL (Invalid Argument): We told pread() to read from offset -50.
+                                              A file cannot have a negative byte location. The "jump" failed.
+
+                2) ESPIPE (Illegal Seek): We tried to pread() from a live network socket or a terminal window.
+                                          We cannot "jump" to byte 500 of a live internet stream.
+                                          The "jump" is physically impossible.
+
+            Examples of "Transfer" Errors (The read/write part):
+                1) EBADF (Bad File Descriptor): We opened a file as "Read Only",
+                                                but we tried to use pwrite() to write to it.
+                                                The "jump" succeeded, but the "transfer" was blocked by permissions.
+
+                2) ENOSPC (No Space Left): We tried to pwrite() a massive block of data, but our hard drive is 100% full.
+
+                3) EIO (I/O Error): Our physical hard drive crashed or the USB cable was yanked out right as
+                                    the data was transferring.
+ */
+#define XOPEN_SOURCE 500
 
 #include <fcntl.h>
 #include <unistd.h>
