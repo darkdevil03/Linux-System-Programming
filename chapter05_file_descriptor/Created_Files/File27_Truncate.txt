@@ -1,0 +1,2 @@
+This file is used for truncate..!
+Be careful, while using truncate.
