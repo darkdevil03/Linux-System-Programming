@@ -40,6 +40,7 @@
                 3) EIO (I/O Error): Our physical hard drive crashed or the USB cable was yanked out right as
                                     the data was transferring.
  */
+
 #define XOPEN_SOURCE 500
 
 #include <fcntl.h>
