@@ -37,6 +37,8 @@ int main() {
     cursor_location = lseek(fd,0,SEEK_CUR);
     printf("[AFTER-READ] Current cursor location in file at %ld location.\n", cursor_location);
 
+    printf("\n\t--- Reading the file using pread() ---\n");
+
     ssize_t pread_bytes = pread(fd,buffer,44, 31);
 
     if (pread_bytes == -1) {
