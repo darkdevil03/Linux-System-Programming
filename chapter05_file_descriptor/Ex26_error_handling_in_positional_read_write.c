@@ -58,7 +58,7 @@ int main() {
     printf("--- Demonstrating pread() Return Values ---\n\n");
 
     // 1. Create a tiny file with just 5 bytes of data
-    fd = open("Created_Files/File26_Positional_read_write_test_errors.txt", O_CREAT | O_RDWR | O_TRUNC, 0644);
+    fd = open("Created_Files/File26_Positional_read_write_test_errors.txt", O_CREAT | O_RDWR, 0644);
     if (fd == -1) {
         perror("Failed to open file! ");
         return EXIT_FAILURE;
