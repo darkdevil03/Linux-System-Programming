@@ -35,6 +35,7 @@ int main() {
 
     if (bytes_written == -1) {
         perror("[WRITE-ERROR] Failed to write into the file!!!\n");
+        free(write_buffer);
         close(fd);
         return EXIT_FAILURE;
     }
@@ -63,6 +64,8 @@ int main() {
 
     if (pwrite_bytes == -1) {
         perror("[PWRITE-ERROR] Failed to write into the file!!!\n");
+        free(write_buffer);
+        free(pwrite_buffer);
         close(fd);
         return EXIT_FAILURE;
     }
@@ -75,6 +78,8 @@ int main() {
     cursor_location = lseek(fd,0,SEEK_CUR);
     printf("[AFTER-PWRITE] Current cursor location in file at %ld location.\n", cursor_location);
 
+    free(write_buffer);
+    free(pwrite_buffer);
     close(fd);
 
     return EXIT_SUCCESS;
