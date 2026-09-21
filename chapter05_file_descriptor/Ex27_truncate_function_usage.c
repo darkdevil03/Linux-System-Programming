@@ -30,6 +30,7 @@ int main() {
     printf("\t[SUCCESS] %ld Bytes read from the file...\n", bytes_read);
     printf("\t[READ] Fetch content from file to buffer : \n%s\n\n",read_buffer);
 
+    printf("[SUCCESS] Truncating the file content to 30-Bytes!! \n");
 
     int ret = truncate("Created_Files/File27_Truncate.txt", 30);
     if (ret == -1) {
@@ -37,8 +38,6 @@ int main() {
         printf("Check the given file path/file name is correct!!\n");
         return EXIT_FAILURE;
     }
-
-    printf("[SUCCESS] Truncating the file content to 30-Bytes!! \n");
 
     printf("\n--- [AFTER-TRUNCATE] Reading the file content --- \n");
 
