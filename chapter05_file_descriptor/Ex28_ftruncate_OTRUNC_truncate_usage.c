@@ -42,7 +42,7 @@ int main() {
     printf("Successfully ran truncate(filepath, 20).\n");
     print_file_size(filepath, fd); // Expect: 20 bytes
 
-    close(fd);
+    close(fd); // Note: fd is opened till now for printing size purpose only.
 
 
     // ---------------------------------------------------------
@@ -98,3 +98,19 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+/**
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+   |    Feature    |        O_TRUNC         |           truncate()            |              truncate()               |
+   |               |        (Flag)          |          (System Call)          |             (System Call)             |
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+   | Target        |  Used inside open()    |     Uses a File Descriptor (fd) |   "Uses a File Path (""path.txt"")"   |
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+   | Size control  |  Always 0 bytes        |     Any exact byte size         |    Any exact byte size                |
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+   | Prerequisite  |  File is being opened  |     File is currently open      |    File is currently closed (or open) |
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+   | Speed         |  Instant on open       |     Dynamic during runtime      |    External modification              |
+   |---------------|------------------------|---------------------------------|---------------------------------------|
+
+ */
