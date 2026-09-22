@@ -9,7 +9,7 @@ int main() {
     int ready_count;
 
     printf("--- Multiplexed I/O Demonstration ---\n");
-    printf("You have 5 seconds to type something and press Enter...\n\n");
+    printf("You have 10 seconds to type something and press Enter...\n\n");
 
     // 1. Clear the watch list so it's empty
     FD_ZERO(&watch_list);
@@ -17,14 +17,14 @@ int main() {
     // 2. Add the Keyboard (Standard Input, which is always File Descriptor 0) to our watch list
     FD_SET(STDIN_FILENO, &watch_list);
 
-    // 3. Set our timeout clock to 5 seconds and 0 microseconds
+    // 3. Set our timeout clock to 10 seconds and 0 microseconds
     timeout.tv_sec = 10;
     timeout.tv_usec = 0;
 
     // 4. THE MULTIPLEXER: select()
     // We hand the OS our watch list and our clock. The program goes to sleep here.
-    // It will ONLY wake up if you press a key OR if the 5 seconds run out.
-    ready_count = select(STDIN_FILENO + 1, &watch_list, NULL, NULL, &timeout);
+    // It will ONLY wake up if you press a key OR if the 10 seconds run out.
+    ready_count = select(STDIN_FILENO + 1, &watch_list, nullptr, nullptr, &timeout);
 
     // 5. Figure out why we woke up
     if (ready_count == -1) {
@@ -45,11 +45,6 @@ int main() {
 
         // The watch list woke us up! That means the keyboard has data ready to be read.
         // Now it is 100% safe to call read() because we know it won't block.
-        if (FD_ISSET(STDOUT_FILENO, &watch_list) == 0) {
-        perror("[ERROR] File descriptor is not present in the watchlist to perform readfds operation!!");
-        return EXIT_FAILURE;
-    }
-
         char buffer[100];
         ssize_t bytes = read(STDIN_FILENO, buffer, sizeof(buffer) - 1);
 
