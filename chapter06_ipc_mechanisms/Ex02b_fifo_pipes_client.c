@@ -6,26 +6,30 @@
 #include <sys/stat.h>
 
 int main() {
-
     char *fifo_path = "/tmp/ex02a_fifo_pipes";
 
+    // 1. Open the existing FIFO for writing.
+    // This unlocks the server's blocking open() call.
     int fd = open(fifo_path, O_WRONLY);
     if (fd == -1) {
         perror("[ERROR] Failed to fifo file path!!");
         return EXIT_FAILURE;
     }
 
-    char buffer[25] = "This data from client";
-    ssize_t bytes_write = write(fd, buffer, strlen(buffer));
+    // 2. Write data into the named pipe
+    printf("Client is sending a message...\n");
+    char msg[25] = "This data from client";
+
+    ssize_t bytes_write = write(fd, msg, strlen(msg));
     if (bytes_write == -1) {
-        perror("[CLIENT-ERROR] Failed to read data of client-side!");
+        perror("[CLIENT-ERROR] Failed to write data for server-side!");
         close(fd);
         return EXIT_FAILURE;
     }
 
     printf("[CLIENT] Sent %zd bytes data \n", bytes_write);
 
+    // 3. Close the file descriptor
     close(fd);
-
-    return EXIT_SUCCESS;
+    return 0;
 }
