@@ -16,13 +16,13 @@
 #include <unistd.h>
 
 void* thread_func(void* arg) {
-    int thread_id = *((int*) arg);
+    int thread_num = *((int*) arg);
 
     for (int i = 0; i < 10; i++) {
         sleep(1); // Simulate work
-        printf("[THREAD-%d] I am running in background...\n", thread_id);
+        printf("[THREAD-%d] I am running in background...\n", thread_num);
     }
-    printf("[THREAD-%d] My work done!\n",thread_id);
+    printf("[THREAD-%d] My work done!\n",thread_num);
 
     return NULL;
 }
@@ -31,11 +31,11 @@ int main() {
 
     printf("[MAIN-THREAD] I am started\n");
     pthread_t thread;
-    int thread_id = 1952;
+    int thread_num = 1952;
 
     printf("[MAIN-THREAD] Thread Created!!\n");
     // Create the thread and pass the address of my_id
-    pthread_create(&thread, nullptr, thread_func, &thread_id);
+    pthread_create(&thread, nullptr, thread_func, &thread_num);
 
     // Wait for the background thread to finish
     pthread_join(thread, nullptr);
