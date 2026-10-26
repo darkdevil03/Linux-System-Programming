@@ -1,3 +1,18 @@
+/**
+    Scenario: (Detached Threads)
+        How do you run a "fire-and-forget" thread that cleans up its own resources
+        without the main thread ever calling pthread_join?
+
+    Details:
+        Normally, a thread's resources are kept alive until join
+        is called (like a zombie process).
+        pthread_detach tells the OS to automatically reclaim the
+        thread's memory the moment it exits.
+
+    Usage:
+        Daemon threads, background telemetry heartbeat pingers, or
+        server client-handling threads where tracking them is unnecessary.
+*/
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
