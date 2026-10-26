@@ -1,4 +1,22 @@
+/**
+    Scenario:
+        How do you forcefully cancel a running thread from the main thread,
+        while ensuring the thread cleans up its locked resources
+        (like closing files) before dying?
 
+    Details:
+        pthread_cancel requests termination.
+        pthread_cleanup_push registers a callback that the OS automatically executes
+        if the thread is cancelled, preventing memory/file descriptor leaks.
+
+    Usage:
+        Daemon threads, background telemetry heartbeat pingers, or
+        server client-handling threads where tracking them is unnecessary.
+
+    Note:
+        Requires understanding cancellation points,
+        asynchronous vs deferred cancellation, and stack-based cleanup macros.
+*/
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
