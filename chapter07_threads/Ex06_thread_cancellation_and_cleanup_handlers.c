@@ -46,12 +46,12 @@ void* long_running_task(void* arg) {
 
 int main() {
     pthread_t thread;
-    pthread_create(&thread, NULL, long_running_task, NULL);
+    pthread_create(&thread, nullptr, long_running_task, NULL);
 
     sleep(5);
     printf("Main: Canceling thread...\n");
     pthread_cancel(thread); // Send cancellation request
-    pthread_join(thread, NULL);
+    pthread_join(thread, nullptr);
 
     return 0;
 }
