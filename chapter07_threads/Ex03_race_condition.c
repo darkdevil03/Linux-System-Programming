@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-int glob = 0;
+int global_counter = 0;
 
 void* counter(void* arg) {
     for (int i = 0; i < 1000000; i++) {
-        glob++;
+        global_counter++;
     }
     return NULL;
 }
@@ -24,7 +24,7 @@ int main() {
     pthread_join(thread2,nullptr);
 
 
-    printf("glob : %d", glob);
+    printf("glob : %d", global_counter);
 
     return EXIT_SUCCESS;
 }
