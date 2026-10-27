@@ -3,34 +3,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int glob = 0;
-int check = 0;
-
+int global_counter = 0;
+pthread_mutex_t lock;
 
 void* counter(void* args) {
+    int thread_id = *(int*) args;
 
-
-    for (int i = 0; i < 10000000; i++) {
-        pthread_mutex_lock(args);
-        glob++;
-        pthread_mutex_unlock(args);
+    for (int i = 0; i < 100000000; i++) {
+        pthread_mutex_lock(&lock);
+        // printf("Locked by thread : %d\n", thread_id);
+        global_counter++;
+        pthread_mutex_unlock(&lock);
+        // printf("Unlocked by thread : %d\n", thread_id);
     }
 
     return NULL;
 }
 
 int main() {
+    pthread_t thread1, thread2;
 
-    pthread_t thread;
-    pthread_t thread2;
+    pthread_t t1_id = 1;
+    pthread_t t2_id = 2;
 
-    pthread_create(&thread, nullptr, counter, &check);
-    pthread_create(&thread2, nullptr, counter, &check);
+    pthread_mutex_init(&lock, nullptr);
 
-    pthread_join(thread, nullptr);
+    pthread_create(&thread1, nullptr, counter, &t1_id);
+    pthread_create(&thread2, nullptr, counter, &t2_id);
+
+    pthread_join(thread1, nullptr);
     pthread_join(thread2, nullptr);
 
-    printf("glob : %d", glob);
+    printf("Final shared variable value : %d", global_counter);
+
+    pthread_mutex_destroy(&lock);
 
     return EXIT_SUCCESS;
 }
