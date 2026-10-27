@@ -1,4 +1,17 @@
+/**
+    Scenario: Protecting Shared Data (Mutex)
+        Two threads are incrementing a shared counter variable 100,000 times.
+        How do you prevent race conditions from corrupting the final count?
 
+    Details:
+        global_counter++ is not atomic. The Mutex acts as a lock.
+        Thread 1 locks it, modifies the counter, and unlocks it.
+        Thread 2 must wait in line, preventing data corruption.
+
+    Usage:
+        Updating shared states like global variables, database rows,
+        or linked lists from multiple threads
+*/
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
