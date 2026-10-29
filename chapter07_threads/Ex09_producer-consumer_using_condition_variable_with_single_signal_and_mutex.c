@@ -1,3 +1,21 @@
+/**
+    Scenario: Producer-Consumer (Condition Variables)
+        Implement a thread-safe queue where multiple producers add tasks,
+        and multiple consumers take tasks. Consumers must "sleep" without
+        burning CPU when the queue is empty, and wake up instantly when
+        a task is added.
+
+    Details:
+        pthread_cond_wait atomically releases the mutex and puts the thread
+        to sleep. When pthread_cond_signal is called, the sleeping thread
+        wakes up and automatically re-acquires the mutex.
+
+    Usage:
+        Job queues, web server request handlers, UI event loops.
+        The core architecture of asynchronous message passing.
+        Requires preventing spurious wakeups using while loops.
+*/
+
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
