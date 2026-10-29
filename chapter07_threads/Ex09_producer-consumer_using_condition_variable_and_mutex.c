@@ -1,58 +1,42 @@
-
-#include <pthread.h>
-#include <stddef.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <bits/pthreadtypes.h>
+#include <pthread.h>
+#include <unistd.h>
 
-
-int buffer = 0;
+int buffer = 0; // 0 means empty, 1 means full
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void* consumer(void* args) {
-    pthread_mutex_lock(&mutex);
-    if(buffer == 0) {
-        pthread_cond_wait(&cond, &mutex);
+void* producer(void* arg) {
+    pthread_mutex_lock(&lock);
+    while (buffer == 1) { // Wait if full
+        pthread_cond_wait(&cond, &lock);
     }
-    buffer = 0;
-    pthread_cond_signal(&cond);
-    pthread_mutex_unlock(&mutex);
-
-    printf("[CONSUMER] Given task completed. \n");
-
+    buffer = 1; // Produce
+    printf("Produced task.\n");
+    pthread_cond_signal(&cond); // Wake up consumer
+    pthread_mutex_unlock(&lock);
     return NULL;
 }
 
-void* producer(void* args) {
-    pthread_mutex_lock(&mutex);
-    if(buffer ==  1) {
-        pthread_cond_wait(&cond, &mutex);
+void* consumer(void* arg) {
+    pthread_mutex_lock(&lock);
+    while (buffer == 0) { // Wait if empty
+        pthread_cond_wait(&cond, &lock); // Releases lock and sleeps
     }
-
-    buffer = 1;
-    pthread_cond_signal(&cond);
-    pthread_mutex_unlock(&mutex);
-    printf("[PRODUCER] Generated a task into buffer.\n");
-
-
+    buffer = 0; // Consume
+    printf("Consumed task.\n");
+    pthread_cond_signal(&cond); // Wake up producer
+    pthread_mutex_unlock(&lock);
     return NULL;
 }
 
 int main() {
-
-    pthread_t produce, consume;
-    pthread_mutex_init(&mutex, NULL);
-    pthread_cond_init(&cond, NULL);
-
-    pthread_create(&produce, NULL, producer, NULL);
-    pthread_create(&consume, NULL, consumer, NULL);
-
-    pthread_join(produce, NULL);
-    pthread_join(consume, NULL);
-
-    pthread_cond_destroy(&cond);
-    pthread_mutex_destroy(&mutex);
-
-    return EXIT_SUCCESS;
+    pthread_t p, c;
+    pthread_create(&c, NULL, consumer, NULL); // Starts first, goes to sleep
+    sleep(1);
+    pthread_create(&p, NULL, producer, NULL); // Wakes the consumer
+    
+    pthread_join(p, NULL);
+    pthread_join(c, NULL);
+    return 0;
 }
