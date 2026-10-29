@@ -56,10 +56,10 @@ int main() {
         pthread_create(&threads[i], NULL, worker, &ids[i]);
     }
 
-    sleep(2); // Let them all go to sleep
+    sleep(3); // Let them all go to sleep
 
     // Initiate shutdown
-    printf("\nMain: Initiating global shutdown...\n");
+    printf("\n[MAIN] Initiating global shutdown...\n");
     pthread_mutex_lock(&lock);
     keep_running = 0; // Change the state
     pthread_mutex_unlock(&lock); // Open the door
@@ -71,7 +71,7 @@ int main() {
         pthread_join(threads[i], NULL);
     }
 
-    printf("Main: All workers shut down cleanly.\n");
+    printf("[MAIN] All workers shut down cleanly.\n");
     return 0;
 }
 
