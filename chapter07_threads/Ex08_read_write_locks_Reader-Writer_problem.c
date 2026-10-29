@@ -1,3 +1,18 @@
+/**
+    Scenario: Read-Write Locks (Reader-Writer Problem)
+        A caching server has many threads reading data frequently,
+        but writes happen rarely. A standard mutex blocks everyone.
+        How do you optimize this so multiple readers can read simultaneously,
+        but a writer gets exclusive access?
+
+    Details:
+        pthread_rwlock_t distinguishes between read and write intents.
+        It allows massive parallel read throughput while ensuring total safety during writes.
+        Introduces optimized locking mechanisms based on the type of memory operation.
+    Usage:
+        High-performance caching layers, filesystem implementations, DNS resolvers.
+ */
+
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
@@ -10,7 +25,7 @@ void* reader(void* arg) {
     int id = *((int*)arg);
 
     pthread_rwlock_rdlock(&rwlock); // Multiple threads can hold this
-    printf("[READER-%d] read: %d\n", id, shared_data);
+    printf("[READER-%d] Read data: %d\n", id, shared_data);
     pthread_rwlock_unlock(&rwlock);
 
     return NULL;
@@ -19,7 +34,7 @@ void* reader(void* arg) {
 void* writer(void* arg) {
     pthread_rwlock_wrlock(&rwlock); // Blocks all other readers AND writers
     shared_data++;
-    printf("Writer updated shared_data to: %d\n", shared_data);
+    printf("[WRITER] Updated shared_data to: %d\n", shared_data);
     pthread_rwlock_unlock(&rwlock);
     return NULL;
 }
