@@ -1,51 +1,46 @@
-
-#include <pthread.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <stdlib.h>
-#include <bits/pthreadtypes.h>
+#include <unistd.h>
 
-pthread_rwlock_t rw_lock;
-int shared_var = 0;
+pthread_rwlock_t rwlock;
+int shared_data = 0;
 
-void *writer(void *arg) {
-    printf("[Writer] I gonna start write\n");
-    pthread_rwlock_wrlock(&rw_lock);
-    shared_var++;
-    printf("[Writer] updated shared var : %d\n", shared_var);
-    pthread_rwlock_unlock(&rw_lock);
+void* reader(void* arg) {
+    int id = *((int*)arg);
+
+    pthread_rwlock_rdlock(&rwlock); // Multiple threads can hold this
+    printf("[READER-%d] read: %d\n", id, shared_data);
+    pthread_rwlock_unlock(&rwlock);
 
     return NULL;
 }
 
-void *reader(void* arg) {
-    int id = (*(int*) arg);
-    printf("[Reader-%d] I am reading \n", id);
-    pthread_rwlock_rdlock(&rw_lock);
-    printf("[Reader-%d] reading shared var : %d\n", id, shared_var);
-    pthread_rwlock_unlock(&rw_lock);
-
+void* writer(void* arg) {
+    pthread_rwlock_wrlock(&rwlock); // Blocks all other readers AND writers
+    shared_data++;
+    printf("Writer updated shared_data to: %d\n", shared_data);
+    pthread_rwlock_unlock(&rwlock);
     return NULL;
 }
 
 int main() {
     pthread_t r1, r2, r3, w1;
-    pthread_t ids[3] = {1, 2, 3};
+    int ids[] = {1, 2, 3};
 
-    pthread_rwlock_init(&rw_lock, NULL);
-
+    pthread_rwlock_init(&rwlock, NULL);
+    
     pthread_create(&r1, NULL, reader, &ids[0]);
     pthread_create(&r2, NULL, reader, &ids[1]);
-
-
-    pthread_create(&w1, NULL, writer, NULL);
+    pthread_create(&w1, NULL, writer, NULL); // Writer interrupts
     pthread_create(&r3, NULL, reader, &ids[2]);
-
+    
     pthread_join(r1, NULL);
     pthread_join(r2, NULL);
-    pthread_join(r3, NULL);
     pthread_join(w1, NULL);
-
-    pthread_rwlock_destroy(&rw_lock);
+    pthread_join(r3, NULL);
+    
+    pthread_rwlock_destroy(&rwlock);
 
     return EXIT_SUCCESS;
 }
