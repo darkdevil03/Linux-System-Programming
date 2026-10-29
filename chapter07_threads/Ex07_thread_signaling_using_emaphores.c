@@ -1,3 +1,20 @@
+/**
+    Scenario: Thread Signaling (Semaphores)
+        A system has a "downloader" thread and a "processor" thread.
+        How do you ensure the processor only runs after the downloader
+        has fetched a file?
+
+    Details:
+        A semaphore is a thread-safe integer.
+        sem_wait pauses the thread if the value is 0. sem_post increments it.
+        The processor waits because the starting value is 0,
+        until the downloader posts.
+
+    Usage:
+        Controlling order of execution, limiting access to a pool of resources
+        (like a database connection pool limit of 5).
+ */
+
 #include <stdio.h>
 #include <pthread.h>
 #include <semaphore.h>
