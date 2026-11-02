@@ -26,8 +26,8 @@
 #include <unistd.h>
 
 int keep_running = 1; // 1 means run, 0 means shut down
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t lock;
+pthread_cond_t cond;
 
 void* worker(void* arg) {
     int id = *((int*)arg);
@@ -51,6 +51,9 @@ int main() {
     pthread_t threads[3];
     int ids[3] = {1, 2, 3};
 
+    pthread_mutex_init(&lock, NULL);
+    pthread_cond_init(&cond, NULL);
+
     // Start 3 workers
     for(int i = 0; i < 3; i++) {
         pthread_create(&threads[i], NULL, worker, &ids[i]);
@@ -72,6 +75,9 @@ int main() {
     }
 
     printf("[MAIN] All workers shut down cleanly.\n");
+
+    pthread_cond_destroy(&cond);
+    pthread_mutex_destroy(&lock);
     return 0;
 }
 

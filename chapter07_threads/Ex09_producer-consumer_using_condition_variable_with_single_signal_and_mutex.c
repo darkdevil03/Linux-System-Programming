@@ -21,8 +21,8 @@
 #include <unistd.h>
 
 int buffer = 0; // 0 means empty, 1 means full
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t lock;
+pthread_cond_t cond;
 
 void* producer(void* arg) {
     pthread_mutex_lock(&lock);
@@ -50,11 +50,18 @@ void* consumer(void* arg) {
 
 int main() {
     pthread_t p, c;
+
+    pthread_mutex_init(&lock, NULL);
+    pthread_cond_init(&cond, NULL);
+
     pthread_create(&c, NULL, consumer, NULL); // Starts first, goes to sleep
     sleep(1);
     pthread_create(&p, NULL, producer, NULL); // Wakes the consumer
     
     pthread_join(p, NULL);
     pthread_join(c, NULL);
+
+    pthread_cond_destroy(&cond);
+    pthread_mutex_destroy(&lock);
     return 0;
 }
