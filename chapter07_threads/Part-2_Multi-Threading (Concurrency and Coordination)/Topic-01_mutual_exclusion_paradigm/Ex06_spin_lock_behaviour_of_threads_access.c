@@ -1,4 +1,21 @@
+/**
+Scenario:
+        To expose the spinning behavior and print a message every time
+        the thread checks the lock, you must build your own spin loop
+        using pthread_spin_trylock().
 
+    Details:
+        To see a thread constantly asking for the lock,
+        you cannot use the standard pthread_spin_lock() function.
+        That function handles the "spinning" (polling) internally
+        at the hardware/OS level, meaning it blocks your code from
+        executing print statements until it successfully gets the lock.
+
+        pthread_spin_trylock() checks if the lock is available.
+        If it is, it locks it and returns 0. If it is already locked
+        by someone else, it returns immediately with an error code (usually EBUSY),
+        allowing you to execute code (like a print statement) before checking again.
+ */
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
