@@ -30,7 +30,7 @@ void* func(void* arg) {
     // This allows one thread to handle post-barrier cleanup safely.
     if (leader_thread == PTHREAD_BARRIER_SERIAL_THREAD) {
         // you can put the mutex_lock also but who's gain first lock by os will goes to below statement.
-        // Whereas using PTHREAD_BARRIER_SERIAL_THREAD explained in-detailed at line .
+        // Whereas using PTHREAD_BARRIER_SERIAL_THREAD explained in-detailed from line 65.
         printf("[BARRIER-DOWN-BY-%d] All threads passed.\n", *(int*) arg);
         gate = 0; // Safe to reset here since all threads are unblocked
     }
@@ -62,6 +62,8 @@ int main() {
 }
 
 /**
+Overall Barrier Flow Explanation:
+
     When a barrier is initialized with a count of 3 (pthread_barrier_init(&barr, NULL, 3)),
     it acts like a turnstile that only unlocks when exactly three people are standing against it.
 
@@ -85,7 +87,9 @@ int main() {
             Thread C Arrives: Thread C executes pthread_barrier_wait. It increments the counter to 3.
                 The OS sees that the required quota (3 out of 3) has been met.
 
-        The Drop: The barrier drops. The OS instantly resets the barrier's internal counter back to 0 so it is ready for the next cycle. It then wakes up Thread A and Thread B, while Thread C is allowed to continue.
+        The Drop: The barrier drops. The OS instantly resets the barrier's internal counter back to 0
+        so it is ready for the next cycle. It then wakes up Thread A and Thread B,
+        while Thread C is allowed to continue.
 
         Phase 2: The Return Value (PTHREAD_BARRIER_SERIAL_THREAD)
             As the three threads wake up and the pthread_barrier_wait function finishes,
@@ -94,26 +98,32 @@ int main() {
             The OS guarantees that exactly one thread in the group will receive
             the special constant PTHREAD_BARRIER_SERIAL_THREAD (which is typically defined as -1).
 
-        The other two threads will receive a return value of 0.
+            The other two threads will receive a return value of 0.
 
         Note: The OS chooses the serial thread arbitrarily. It is not necessarily the last thread to arrive.
 
-        Let's assume the OS randomly selects Thread B as the serial thread.
+            Let's assume the OS randomly selects Thread B as the serial thread.
 
-        Thread A wakes up. Its pthread_barrier_wait returns 0. Therefore, res = 0.
+            Thread A wakes up. Its pthread_barrier_wait returns 0. Therefore, res = 0.
 
-        Thread B wakes up. Its pthread_barrier_wait returns the special constant. Therefore, res = PTHREAD_BARRIER_SERIAL_THREAD.
+            Thread B wakes up. Its pthread_barrier_wait returns the special constant. Therefore, res = PTHREAD_BARRIER_SERIAL_THREAD.
 
-        Thread C continues. Its pthread_barrier_wait returns 0. Therefore, res = 0.
+            Thread C continues. Its pthread_barrier_wait returns 0. Therefore, res = 0.
 
-Phase 3: The If-Statement Evaluation
-All three threads now move to the next line of code simultaneously: if (res == PTHREAD_BARRIER_SERIAL_THREAD)
+        Phase 3: The If-Statement Evaluation
+            All three threads now move to the next line of code simultaneously: if (res == PTHREAD_BARRIER_SERIAL_THREAD)
 
-Thread A: Evaluates if (0 == PTHREAD_BARRIER_SERIAL_THREAD). This is false. Thread A skips the if-block entirely and continues executing the rest of the function.
+            Thread A: Evaluates if (0 == PTHREAD_BARRIER_SERIAL_THREAD). This is false.
+                Thread A skips the if-block entirely and continues executing the rest of the function.
 
-Thread C: Evaluates if (0 == PTHREAD_BARRIER_SERIAL_THREAD). This is false. Thread C skips the if-block entirely.
+            Thread C: Evaluates if (0 == PTHREAD_BARRIER_SERIAL_THREAD). This is false.
+                Thread C skips the if-block entirely.
 
-Thread B: Evaluates if (PTHREAD_BARRIER_SERIAL_THREAD == PTHREAD_BARRIER_SERIAL_THREAD). This is true. Thread B enters the if-block.
+            Thread B: Evaluates if (PTHREAD_BARRIER_SERIAL_THREAD == PTHREAD_BARRIER_SERIAL_THREAD).
+                This is true. Thread B enters the if-block.
 
-Because Thread B is the only one that enters the block, it can safely reset a shared variable (like gate = 0), print a "Closure" message, or clean up memory without needing to use a Mutex. It is impossible for a race condition to occur inside this specific if-block because the OS strictly ensures no other thread from that barrier cycle possesses the serial ticket.
+        Because Thread B is the only one that enters the block, it can safely reset a shared variable
+        (like gate = 0), print a "Closure" message, or clean up memory without needing to use a Mutex.
+        It is impossible for a race condition to occur inside this specific if-block because
+        the OS strictly ensures no other thread from that barrier cycle possesses the serial ticket.
  */
