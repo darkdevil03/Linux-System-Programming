@@ -55,3 +55,29 @@ int main() {
     pthread_spin_destroy(&spinlock);
     return 0;
 }
+
+/**
+More Details:
+    In the context of spinlocks (pthread_spinlock_t),
+    contention means multiple threads are trying to acquire the same lock at the exact same time.
+    Because a spinlock works by making waiting threads continuously loop (or "spin")
+    while repeatedly checking if the lock is free, contention directly impacts system performance.
+
+    How Contention Works with Spinlocks?
+        • Low Contention: Threads rarely ask for the lock at the same time.
+                A thread checks the lock, sees it is free, and enters the critical section immediately.
+        • High Contention: Many threads try to grab the lock simultaneously.
+                One thread gets the lock, while all the other threads get stuck in a tight loop
+                burning 100% CPU cycles just waiting for their turn.
+
+    Why Spinlock Contention is Dangerous?
+        Unlike a standard mutex (pthread_mutex_t), which puts waiting threads to sleep so the CPU can do other work,
+        a spinning thread stays awake and active. High contention on a spinlock causes several severe issues:
+            • Wasted CPU Cycles: Spinning threads consume processing power without doing any useful work.
+            • Cache Invalidation (Cache Thrashing): Every time a thread checks or updates the lock variable,
+                    CPU cores must synchronize their caches. Under heavy contention,
+                    this constant communication slows down the entire processor.
+            • Priority Inversion / Starvation: If a lower-priority thread holds the spinlock and
+                    gets interrupted by the OS, higher-priority threads will spin endlessly, wasting CPU time
+                    and preventing the lower-priority thread from finishing and releasing the lock.
+ */
