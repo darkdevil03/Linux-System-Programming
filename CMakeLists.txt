@@ -6,6 +6,9 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
+# 1. FIND THE SYSTEM THREADING LIBRARY (Crucial for Linux pthreads)
+find_package(Threads REQUIRED)
+
 # Keeps your build directory organized by putting output executables in the root build folder
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -32,6 +35,12 @@ foreach(FILE ${C_FILES})
 
     # Create the individual executable target for the C file
     add_executable(${TARGET_NAME} ${FILE})
+
+    # 2. LINK THE THREAD LIBRARY TO EVERY EXECUTABLE
+    target_link_libraries(${TARGET_NAME} PRIVATE Threads::Threads)
+
+    # 3. LINK ATOMICS (Sometimes required on specific Linux distros for stdatomic)
+    target_link_libraries(${TARGET_NAME} PRIVATE atomic)
 
     # Direct output executable binary to the main build directory
     set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
