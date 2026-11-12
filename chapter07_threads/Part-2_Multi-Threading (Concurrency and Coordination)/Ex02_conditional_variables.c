@@ -1,3 +1,8 @@
+/**
+    Scenario: Condition Variables (pthread_cond_t)
+        A thread waiting for a specific state change (e.g., waiting for the buffer to hit exactly 5 items).
+ */
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
