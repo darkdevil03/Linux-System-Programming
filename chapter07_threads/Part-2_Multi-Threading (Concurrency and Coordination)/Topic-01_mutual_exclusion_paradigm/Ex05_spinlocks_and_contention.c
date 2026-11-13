@@ -13,7 +13,7 @@
 
     Usage: Use a Spinlock only in ultra-low-latency environments (like high-frequency trading or kernel drivers)
             where the lock is only held for a few nanoseconds (e.g., just incrementing a single integer).
-            Furthermore, spinlocks should only be used on multi-core systems; on a single-core system,
+            Furthermore, spinlock should only be used on multi-core systems; on a single-core system,
             a spinlock will instantly deadlock your program because the spinning thread will never yield the CPU to
             let the holding thread finish and unlock it.
  */
@@ -58,12 +58,12 @@ int main() {
 
 /**
 More Details:
-    In the context of spinlocks (pthread_spinlock_t),
+    In the context of spinlock (pthread_spinlock_t),
     contention means multiple threads are trying to acquire the same lock at the exact same time.
     Because a spinlock works by making waiting threads continuously loop (or "spin")
     while repeatedly checking if the lock is free, contention directly impacts system performance.
 
-    How Contention Works with Spinlocks?
+    How Contention Works with Spinlock?
         • Low Contention: Threads rarely ask for the lock at the same time.
                 A thread checks the lock, sees it is free, and enters the critical section immediately.
         • High Contention: Many threads try to grab the lock simultaneously.
