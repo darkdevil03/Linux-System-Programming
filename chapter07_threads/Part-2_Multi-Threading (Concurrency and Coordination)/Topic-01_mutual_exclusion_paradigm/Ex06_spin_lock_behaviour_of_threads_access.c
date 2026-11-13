@@ -28,7 +28,7 @@ void* trade_task(void* arg) {
     int id = *(int*)arg;
     printf("[THREAD-%d] Trying to gain lock !!\n", id);
 
-    int spin_count = 0;
+    unsigned int spin_count = 0;
 
     // CUSTOM SPIN LOCK:
     // pthread_spin_trylock returns 0 if successful, or non-zero (EBUSY) if locked.
@@ -69,7 +69,7 @@ int main() {
     for (int i = 1; i <= num_of_threads; i++) {
         t_id[i] = i;
         pthread_create(&threads[i],NULL,trade_task,&t_id[i]);
-        // Slight delay to ensure Thread grabs the lock first
+        // Slight delay to ensure Thread-1 and following threads grabs the lock first
         usleep(10000);
 
     }
