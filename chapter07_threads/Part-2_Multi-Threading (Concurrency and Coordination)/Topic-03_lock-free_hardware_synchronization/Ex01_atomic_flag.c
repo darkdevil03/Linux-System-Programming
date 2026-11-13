@@ -1,3 +1,7 @@
+/**
+    Scenario: Implementing a custom spinlock using direct hardware flags.
+ */
+
 #include <stdio.h>
 #include <stdatomic.h>
 #include <pthread.h>
@@ -37,12 +41,12 @@ int main() {
     printf("Starting threads with custom atomic spinlock...\n");
 
     // Spawn threads that will fiercely compete for the lock
-    pthread_create(&t1, NULL, critical_task, NULL);
-    pthread_create(&t2, NULL, critical_task, NULL);
+    pthread_create(&t1, nullptr, critical_task, NULL);
+    pthread_create(&t2, nullptr, critical_task, NULL);
 
     // Wait for both threads to finish
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
+    pthread_join(t1, nullptr);
+    pthread_join(t2, nullptr);
 
     // If the lock works, this will be exactly 200,000
     printf("Final Counter Value: %d\n", shared_counter);
