@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles_settings>
+  <default-profile>
+    <option name="selectedProfile" value="WSL-Ubuntu-24.04" />
+  </default-profile>
+  <profile>
+    <option name="name" value="WSL-Ubuntu-24.04" />
+    <option name="configurationType" value="WSL" />
+    <option name="remoteConfig">
+      <wsl-config>
+        <option name="distributionName" value="Ubuntu-24.04" />
+      </wsl-config>
+    </option>
+    <option name="cmakeSettings">
+      <cmake-settings>
+        <option name="configurationProfile" value="default" />
+        <option name="buildDirectory" value="cmake-build-wsl" />
+      </cmake-settings>
+    </option>
+  </profile>
+</profiles_settings>
