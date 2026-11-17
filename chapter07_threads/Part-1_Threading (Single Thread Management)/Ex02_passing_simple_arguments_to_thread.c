@@ -35,10 +35,10 @@ int main() {
 
     printf("[MAIN-THREAD] Thread Created!!\n");
     // Create the thread and pass the address of my_id
-    pthread_create(&thread, nullptr, thread_func, &thread_num);
+    pthread_create(&thread, NULL, thread_func, &thread_num);
 
     // Wait for the background thread to finish
-    pthread_join(thread, nullptr);
+    pthread_join(thread, NULL);
 
     printf("[MAIN-THREAD] Background thread done. I am exiting...\n");
 
