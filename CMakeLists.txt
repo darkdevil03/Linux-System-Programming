@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Linux_System_Programming C)
+project(Linux_System_Programming C CXX)
 
 # Set the C standard
 set(CMAKE_C_STANDARD 23)
