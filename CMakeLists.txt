@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 project(Linux_System_Programming C CXX)
 
+# Generate compile_commands.json for IDE code completion and autocomplete support
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Set the C standard
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
