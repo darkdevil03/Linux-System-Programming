@@ -41,7 +41,7 @@ int main() {
         
         while (command[i] != NULL && i < MAX_ARGS - 1) {
             i++;
-            command[i] = strtok(nullptr, " ");
+            command[i] = strtok(NULL, " ");
         }
 
         // If the user just pressed Enter, skip to the next loop iteration

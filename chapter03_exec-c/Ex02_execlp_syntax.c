@@ -33,9 +33,9 @@ int main() {
          * 1st arg: The command to execute ("ls")
          * 2nd arg: arg[0] (conventionally the command name itself)
          * 3rd arg: arg[1] (the flags "-il")
-         * Nth arg: NULL/nullptr/0 (Signals the end of the argument list)
+         * Nth arg: NULL/0 (Signals the end of the argument list)
          */
-        execlp("ls", "ls", "-il", nullptr);
+        execlp("ls", "ls", "-il", NULL);
 
         /* * --- CRITICAL CONCEPT ---
          * If execlp() is successful, the current process image is completely 

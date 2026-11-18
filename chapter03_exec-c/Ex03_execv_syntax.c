@@ -22,7 +22,7 @@ int main() {
      * argv[1] is the flag "-l".
      * argv[2] MUST be NULL to terminate the array for execv().
      */
-    char *argv[] = {"/bin/ls", "-lR", nullptr};
+    char *argv[] = {"/bin/ls", "-lR", NULL};
 
     // 1. Create a duplicate process
     const pid_t child = fork();

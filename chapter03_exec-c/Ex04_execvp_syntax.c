@@ -22,7 +22,7 @@ int main() {
      * argv[1] is the target file ("Ex00_new_program.c").
      * argv[2] MUST be NULL to terminate the array.
      */
-    char *argv[] = {"cat", "Ex00_new_program.c", nullptr};
+    char *argv[] = {"cat", "Ex00_new_program.c", NULL};
 
     // 1. Create a duplicate process
     const pid_t child = fork();
