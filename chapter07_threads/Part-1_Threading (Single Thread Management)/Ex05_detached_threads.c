@@ -35,7 +35,7 @@ int main() {
     pthread_t thread;
     int thread_num = 12;
 
-    pthread_create(&thread, nullptr, back_ground_task, &thread_num);
+    pthread_create(&thread, NULL, back_ground_task, &thread_num);
 
     pthread_detach(thread);
 

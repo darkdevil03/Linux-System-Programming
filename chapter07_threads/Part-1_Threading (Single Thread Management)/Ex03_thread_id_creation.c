@@ -55,12 +55,12 @@ int main() {
     printf("----------------------------------------------------------------------\n");
 
     // Create two threads
-    pthread_create(&thread1, nullptr, thread_function, &thread1_id1);
-    pthread_create(&thread2, nullptr, thread_function, &thread2_id2);
+    pthread_create(&thread1, NULL, thread_function, &thread1_id1);
+    pthread_create(&thread2, NULL, thread_function, &thread2_id2);
 
     // Wait for both threads to finish
-    pthread_join(thread1, nullptr);
-    pthread_join(thread2, nullptr);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
 
     printf("----------------------------------------------------------------------\n");
     printf("Different thread ids (User-Space and Kernel-Space) info printing finished!!\n");

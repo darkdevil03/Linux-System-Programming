@@ -39,13 +39,13 @@ int main() {
     pthread_t t1_id = 1;
     pthread_t t2_id = 2;
 
-    pthread_mutex_init(&lock, nullptr);
+    pthread_mutex_init(&lock, NULL);
 
-    pthread_create(&thread1, nullptr, counter, &t1_id);
-    pthread_create(&thread2, nullptr, counter, &t2_id);
+    pthread_create(&thread1, NULL, counter, &t1_id);
+    pthread_create(&thread2, NULL, counter, &t2_id);
 
-    pthread_join(thread1, nullptr);
-    pthread_join(thread2, nullptr);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
 
     printf("Final shared variable value : %d", global_counter);
 

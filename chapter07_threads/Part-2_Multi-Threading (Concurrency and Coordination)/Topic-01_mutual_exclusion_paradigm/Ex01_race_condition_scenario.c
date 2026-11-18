@@ -16,12 +16,12 @@ int main() {
     pthread_t thread2;
 
 
-    pthread_create(&thread,nullptr,counter,nullptr);
-    pthread_create(&thread2,nullptr,counter,nullptr);
+    pthread_create(&thread,NULL,counter,NULL);
+    pthread_create(&thread2,NULL,counter,NULL);
 
 
-    pthread_join(thread,nullptr);
-    pthread_join(thread2,nullptr);
+    pthread_join(thread,NULL);
+    pthread_join(thread2,NULL);
 
 
     printf("glob : %d", global_counter);

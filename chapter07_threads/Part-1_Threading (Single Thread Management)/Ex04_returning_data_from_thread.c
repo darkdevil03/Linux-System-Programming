@@ -31,9 +31,9 @@ void* square_func(void* arg) {
 int main() {
     pthread_t thread;
     int input = 30;
-    void* thread_result = nullptr;
+    void* thread_result = NULL;
     
-    pthread_create(&thread, nullptr, square_func, &input);
+    pthread_create(&thread, NULL, square_func, &input);
     // Capture the return value
     pthread_join(thread, &thread_result);
     
