@@ -31,7 +31,7 @@ int main() {
     sa.sa_flags = 0;
 
     // Apply the signal catcher to SIGINT
-    sigaction(SIGINT, &sa, nullptr);
+    sigaction(SIGINT, &sa, NULL);
 
     printf("--- BLOCKING MODE ---\n");
     printf("This program is now frozen.\n");

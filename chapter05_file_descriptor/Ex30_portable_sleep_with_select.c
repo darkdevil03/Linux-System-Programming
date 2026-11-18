@@ -21,7 +21,7 @@ int main() {
     // - Arg 3: NULL (No files to watch for writing)
     // - Arg 4: NULL (No files to watch for errors)
     // - Arg 5: &tv (Our 1.5 second timer)
-    int ret = select( 0, nullptr, nullptr, nullptr, &timeout);
+    int ret = select( 0, NULL, NULL, NULL, &timeout);
 
     // 4. Error Validation
     if (ret == -1) {

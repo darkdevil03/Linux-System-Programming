@@ -26,7 +26,7 @@ int main() {
 
     printf("Enter the data to write into file : ");
 
-    if (fgets(write_buffer,256,stdin)!= nullptr) {
+    if (fgets(write_buffer,256,stdin)!= NULL) {
         write_buffer[strcspn(write_buffer,"\n")] = '\0';
         write_buffer_content_length = strlen(write_buffer);
     }
@@ -55,7 +55,7 @@ int main() {
 
     printf("Enter the data to write into file : ");
 
-    if (fgets(pwrite_buffer,256,stdin)!= nullptr) {
+    if (fgets(pwrite_buffer,256,stdin)!= NULL) {
         pwrite_buffer[strcspn(pwrite_buffer,"\n")] = '\0';
         pwrite_buffer_content_length = strlen(pwrite_buffer);
     }

@@ -24,7 +24,7 @@ int main() {
     // 4. THE MULTIPLEXER: select()
     // We hand the OS our watch list and our clock. The program goes to sleep here.
     // It will ONLY wake up if you press a key OR if the 10 seconds run out.
-    ready_count = select(STDIN_FILENO + 1, &watch_list, nullptr, nullptr, &timeout);
+    ready_count = select(STDIN_FILENO + 1, &watch_list, NULL, NULL, &timeout);
 
     // 5. Figure out why we woke up
     if (ready_count == -1) {
