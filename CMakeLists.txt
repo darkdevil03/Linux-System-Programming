@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Linux_System_Programming C CXX)
+project(Linux_System_Programming C)
 
 # Generate compile_commands.json for IDE code completion and autocomplete support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set the C standard
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
 # 1. FIND THE SYSTEM THREADING LIBRARY (Crucial for Linux pthreads)
 find_package(Threads REQUIRED)
