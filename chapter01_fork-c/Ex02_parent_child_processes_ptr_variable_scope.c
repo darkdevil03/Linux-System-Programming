@@ -89,7 +89,7 @@ int main()
         printf("\nParent : Waiting for the child process to terminate...\n");
 
         // Synchronize execution: block parent until the child process completes
-        wait(nullptr);
+        wait(NULL);
 
         printf("\n|-------------------------------------------|\n");
         printf("|    Parent resumed remaining instructions! |\n");
