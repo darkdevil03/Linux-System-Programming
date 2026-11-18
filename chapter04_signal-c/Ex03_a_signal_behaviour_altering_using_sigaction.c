@@ -42,7 +42,7 @@ int main() {
      * We pass the address of our configured 'act' struct.
      * The third argument is NULL because we don't need to save the old action.
      */
-    if (sigaction(SIGINT, &act, nullptr) == -1) {
+    if (sigaction(SIGINT, &act, NULL) == -1) {
         perror("[ERROR] sigaction() failed");
         return 1;
     }

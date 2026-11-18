@@ -62,7 +62,7 @@ int main() {
     sigset_t msk;
     sigemptyset(&msk);
     sigaddset(&msk, SIGILL);
-    sigprocmask(SIG_BLOCK, &msk, nullptr);
+    sigprocmask(SIG_BLOCK, &msk, NULL);
 
     // 3. THE UN-IGNORABLE SIGNAL
     // Attempting to ignore SIGKILL will result in an error from the kernel.

@@ -53,7 +53,7 @@ int main() {
     sigaddset(&act.sa_mask, SIGILL);
 
     // Register the handler for SIGINT
-    if (sigaction(SIGINT, &act, nullptr) == -1) {
+    if (sigaction(SIGINT, &act, NULL) == -1) {
         perror("Failed to set sigaction");
         return 1;
     }
