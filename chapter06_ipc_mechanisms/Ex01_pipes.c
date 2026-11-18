@@ -47,7 +47,7 @@ int main() {
         printf("%zd Bytes written to pipe fds \n", bytes_write);
 
         close(pipe_fds[1]);
-        wait(nullptr);
+        wait(NULL);
     }
 
 

@@ -22,7 +22,7 @@ int main() {
 
     printf("Received data : %s\n", rcv_msg );
 
-    msgctl(msg_id, IPC_RMID, nullptr);
+    msgctl(msg_id, IPC_RMID, NULL);
 
     return EXIT_SUCCESS;
 }

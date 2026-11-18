@@ -12,7 +12,7 @@ int main() {
     int shmid = shmget(key, 1024, 0666 | IPC_CREAT);
 
     // 3. Attach the memory to this process's address space
-    char *str = shmat(shmid, nullptr, 0);
+    char *str = shmat(shmid, NULL, 0);
 
     // 4. Write data directly to the memory (No system calls needed here!)
     printf("[USER-1] Writing data to shared memory...\n");

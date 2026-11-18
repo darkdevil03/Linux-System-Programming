@@ -10,7 +10,7 @@ int main() {
     int shmid = shmget(key, 1024, 0666);
 
     // 3. Attach to the memory
-    char *str =  shmat(shmid, nullptr, 0);
+    char *str =  shmat(shmid, NULL, 0);
     printf("[USER-2] Access the data of shared memory %p location successfully! \n", str);
     // 4. Read the data directly via pointer
     printf("[READER] Data read from shared memory is : %s\n", str);
@@ -19,7 +19,7 @@ int main() {
     shmdt(str);
 
     // 6. Destroy the shared memory block
-    shmctl(shmid, IPC_RMID, nullptr);
+    shmctl(shmid, IPC_RMID, NULL);
 
     return 0;
 }
