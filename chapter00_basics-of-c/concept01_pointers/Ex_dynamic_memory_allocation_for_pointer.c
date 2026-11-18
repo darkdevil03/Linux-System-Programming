@@ -12,7 +12,7 @@ int main() {
     // Request memory for 5 integers
     int *dynamic_arr = malloc(size * sizeof(int));
 
-    if (dynamic_arr == nullptr) {
+    if (dynamic_arr == NULL) {
         return 1; // Memory allocation failed
     }
 
@@ -25,6 +25,6 @@ int main() {
     }
 
     free(dynamic_arr); // Release the memory back to the system
-    dynamic_arr = nullptr; // Good practice
+    dynamic_arr = NULL; // Good practice
     return 0;
 }

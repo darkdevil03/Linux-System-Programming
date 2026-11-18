@@ -45,22 +45,22 @@ int main() {
             set it to NULL to prevent it from pointing to a random, potentially protected memory location
             (a "wild pointer").
     */
-    int *mainPtr = nullptr; // similar NULL
+    int *mainPtr = NULL; // similar NULL
     printf("\nBefore badAllocate function called:\n");
     printf("mainPtr\n");
     printf("   |------> address : %p\n", &mainPtr);
-    printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
+    printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of NULL
     printf("   |------> value of address holding (refers to dereference): NULL\n"); /* if put *mainPtr we get segmentation error due to nil address doesn't have physical location in RAM,
-                                                                                             to avoid that, here we just printing NULL (for our understanding!).
+                                                                                              to avoid that, here we just printing NULL (for our understanding!).
                                                                                             */
     badAllocate(mainPtr); // Why &mainPtr not passed to hold address this pointer to function single pointer refer Ex05_double_pointer.c
     // CRASH: ptr is still NULL here because badAllocate received a copy of ptr.
 
-    if (mainPtr == nullptr) { // similar to ptr == NULL
+    if (mainPtr == NULL) { // similar to ptr == NULL
         printf("\nAfter badAllocate function called:\n");
         printf("mainPtr\n");
         printf("   |------> address : %p\n", &mainPtr);
-        printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
+        printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of NULL
         printf("   |------> value of address holding (refers to dereference): NULL\n");
         printf("mainPtr still pointing to nil, not to heap memory created at badAllocate function!!!\n");
         printf("It defines that badAllocate function is a pass by value approach!!!!\n");

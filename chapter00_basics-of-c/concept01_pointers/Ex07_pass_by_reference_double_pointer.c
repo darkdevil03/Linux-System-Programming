@@ -28,19 +28,19 @@ static void goodAllocate(int **dPtr) {
 
 int main() {
 
-    int *mainPtr = nullptr;
+    int *mainPtr = NULL;
     printf("\nBefore goodAllocate function called:\n");
     printf("mainPtr\n");
     printf("   |------> address : %p\n", &mainPtr);
-    printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of nullptr
+    printf("   |------> value hold (refers to address holding) : %p\n", mainPtr); // pointing to nil address of NULL
     printf("   |------> value of address holding (refers to dereference): NULL\n"); /* if put *mainPtr we get segmentation error due to nil address doesn't have physical location in RAM,
-                                                                                             to avoid that, here we just printing NULL (for our understanding!).
+                                                                                              to avoid that, here we just printing NULL (for our understanding!).
                                                                                             */
 
     goodAllocate(&mainPtr);
 
-    if (mainPtr == nullptr) {
-        printf("mainPtr is still pointing to nullptr!!");
+    if (mainPtr == NULL) {
+        printf("mainPtr is still pointing to NULL!!");
     }else {
         printf("\nAfter goodAllocate function called:\n");
         printf("mainPtr\n");
