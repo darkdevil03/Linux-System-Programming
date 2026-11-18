@@ -50,7 +50,7 @@ int main() {
     printf("[Target] Note: SIGINT not manually blocked. So, by default it is unblocked throughout the program.\n");
 
     // 3. Apply the mask to block the signals
-    sigprocmask(SIG_BLOCK, &msk, nullptr);
+    sigprocmask(SIG_BLOCK, &msk, NULL);
 
     /* ============================================== *
      *              CRITICAL CODE                     *
@@ -63,7 +63,7 @@ int main() {
     /* ========================================= */
 
     // 4. Remove the mask to unblock the signals
-    sigprocmask(SIG_UNBLOCK, &msk, nullptr);
+    sigprocmask(SIG_UNBLOCK, &msk, NULL);
 
     printf("[Target] SIGHUP (1), SIGQUIT (3) and SIGILL (4) have been unblocked.\n");
     printf("[Target] Your favourite number is: %d\n", val);
