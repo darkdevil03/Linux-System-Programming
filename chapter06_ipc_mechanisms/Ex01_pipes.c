@@ -29,8 +29,19 @@ int main() {
         printf("[CHILD-%d] I am reading data from pipe\n", getpid());
         char buffer[25];
 
-        ssize_t bytes_read = read(pipe_fds[0], buffer, sizeof(buffer));
+        ssize_t bytes_read = read(pipe_fds[0], buffer, sizeof(buffer) - 1);
+        if (bytes_read < 0) {
+            perror("[ERROR] read() failed");
+            close(pipe_fds[0]);
+            exit(EXIT_FAILURE);
+        }
+        if (bytes_read == 0) {
+            printf("[CHILD] Pipe closed by writer (EOF)\n");
+            close(pipe_fds[0]);
+            exit(EXIT_SUCCESS);
+        }
         buffer[bytes_read] = '\0';
+
         printf("%zd Bytes read from pipe fds\n", bytes_read);
         printf("Read Data : %s\n", buffer);
 
