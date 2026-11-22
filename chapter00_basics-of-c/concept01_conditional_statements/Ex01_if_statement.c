@@ -2,11 +2,14 @@
 #include <stdlib.h>
 
 int main() {
-    int a = 1;
-    int b = 2;
+    printf("--------- Implemented if statement --------- \n");
 
-    if (a > b) printf("a > b");
-    if (a < b) printf("a < b");
+    printf("Enter any two numbers: ");
+    int num1, num2;
+    scanf("%d%d", &num1, &num2);
+
+    if (num1 > num2) printf("%d is greater than %d\n ",num1, num2);
+    if (num1 < num2) printf("%d is greater than %d\n ",num2, num1);
 
     return EXIT_SUCCESS;
 }
