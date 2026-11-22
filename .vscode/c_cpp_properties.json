@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "WSL-GCC",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/**"
+            ],
+            "compileCommands": "${workspaceFolder}/cmake-build-wsl/compile_commands.json",
+            "cStandard": "c23",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
