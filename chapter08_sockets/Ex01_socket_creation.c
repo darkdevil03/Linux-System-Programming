@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 
-//int socketcreator(int domain, int type, int protocol);
-
 int main() {
     int sock;
     sock = socket(AF_LOCAL, SOCK_STREAM, 0);
