@@ -56,8 +56,10 @@ int main(void) {
     char socket_directory[] = "/tmp/ex02_socket_local_XXXXXX";
     char socket_path[sizeof(((struct sockaddr_un *) 0)->sun_path)];
     struct sockaddr_un address = {0};
+
     const char request[] = "Hello from the local socket client";
     const char response[] = "Hello from the local socket server";
+
     char received_message[sizeof(request)];
     int server_fd = -1;
     int client_fd = -1;
