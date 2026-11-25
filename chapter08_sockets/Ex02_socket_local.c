@@ -30,6 +30,26 @@ static int send_all(int socket_fd, const void *buffer, size_t length) {
     return 0;
 }
 
+static int receive_all(int socket_fd, void *buffer, size_t length) {
+    char *data = buffer;
+    size_t received = 0;
+
+    while (received < length) {
+        ssize_t result = recv(socket_fd, data + received, length - received, 0);
+        if (result == -1 && errno == EINTR) {
+            continue;
+        }
+        if (result <= 0) {
+            if (result == 0) {
+                errno = ECONNRESET;
+            }
+            return -1;
+        }
+        received += (size_t) result;
+    }
+
+    return 0;
+}
 
 
 int main(void) {
@@ -49,7 +69,7 @@ int main(void) {
     /* Step 1: Create the server socket. */
     server_fd = socket(AF_LOCAL, SOCK_STREAM, 0);
     if (server_fd == -1) {
-        perror("socket (server)");
+        perror("[ERROR] Server socket failed to create!!");
         goto cleanup;
     }
 
@@ -79,27 +99,27 @@ int main(void) {
 
     /* Step 3: Listen for a client connection. */
     if (listen(server_fd, 1) == -1) {
-        perror("listen");
+        perror("[SERVER] listen");
         goto cleanup;
     }
 
     /* Step 4: Create the client socket. */
     client_fd = socket(AF_LOCAL, SOCK_STREAM, 0);
     if (client_fd == -1) {
-        perror("socket (client)");
+        perror("[ERROR] Client socket failed to create!!");
         goto cleanup;
     }
 
     /* Step 5: Connect the client socket to the server. */
     if (connect(client_fd, (struct sockaddr *) &address, address_length) == -1) {
-        perror("connect");
+        perror("[CONNECT] Client connect to server failed!!");
         goto cleanup;
     }
 
     /* Step 6: Accept the pending client connection. */
     connection_fd = accept(server_fd, NULL, NULL);
     if (connection_fd == -1) {
-        perror("accept");
+        perror("[ACCEPT] accept failed!!");
         goto cleanup;
     }
 
